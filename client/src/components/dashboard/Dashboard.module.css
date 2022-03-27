@@ -1,0 +1,7 @@
+:root {
+  --gray: #363c47;
+}
+
+.dashboard {
+  flex: 2;
+}

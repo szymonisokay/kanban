@@ -1,0 +1,138 @@
+:root {
+  --main: #1e6bfc;
+  --hover: #eff4ff;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  max-width: 200px;
+  height: 100%;
+  box-shadow: 3px 0px 25px rgb(0 0 0 / 8%);
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 20px;
+}
+
+.user img {
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+  object-fit: cover;
+  border: 2px solid var(--main);
+}
+
+.user span {
+  color: var(--gray);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.board_list {
+  margin-top: 100px;
+  flex: 2;
+  background: #fff;
+  overflow: hidden;
+}
+
+.board_list p {
+  position: relative;
+  z-index: 3;
+}
+
+.boards_menu {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: translateY(-100%);
+
+  transition: all 0.5s ease-in-out;
+}
+
+.boards_menu.expanded {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.boards_menu ul {
+  margin-top: 10px;
+}
+
+.boards_menu li {
+  padding: 10px 20px 10px 40px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+.boards_menu li.active {
+  background: var(--hover);
+}
+
+.boards_menu li::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 0%;
+  background: var(--main);
+
+  transition: all 0.3s linear;
+}
+
+.boards_menu li.active::after {
+  top: 0;
+  height: 150%;
+  transform: translateY(0);
+}
+
+.boards_menu li:hover {
+  background: var(--hover);
+}
+
+.boards_menu p {
+  font-size: 0.8rem;
+  margin-top: 10px;
+}
+
+p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--main);
+  padding: 10px 20px;
+  cursor: pointer;
+
+  transition: background 0.3s ease-in-out;
+}
+
+p:hover {
+  background: var(--hover);
+}
+
+.board_list p.expanded .expanded_icon {
+  transform: rotate(-180deg);
+}
+
+p span {
+  font-weight: 700;
+  flex: 2;
+}
+
+.expanded_icon {
+  transition: transform 0.3s ease-in-out;
+}
+
+.copyright {
+  font-size: 0.8rem;
+  padding: 20px;
+}
