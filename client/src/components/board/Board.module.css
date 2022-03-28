@@ -1,0 +1,43 @@
+.board {
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 20px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.header button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border: none;
+  outline: none;
+  border-radius: 25px;
+  background: var(--hover);
+  cursor: pointer;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.header button:hover {
+  background: var(--main);
+  color: #fff;
+}
+
+.header button span {
+  font-weight: 500;
+}
+
+.tasks {
+  display: flex;
+  padding: 20px;
+}
+
+.tasks :is(.status_column) {
+  flex: 1;
+}

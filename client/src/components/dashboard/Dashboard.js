@@ -3,6 +3,7 @@ import styles from './Dashboard.module.css'
 import { useSearchParams } from 'react-router-dom'
 
 import NotFound from '../notFound/NotFound'
+import Board from '../board/Board'
 
 const dummyBoardData = [
   {
@@ -23,17 +24,18 @@ const Dashboard = () => {
   const [params] = useSearchParams()
   const boardID = +params.get('board')
 
-  const [board, setBoard] = useState(null)
+  const [board, setBoard] = useState({ id: 0, name: '' })
 
   useEffect(() => {
     const selectedBoard = dummyBoardData.find((board) => board.id === boardID)
+
     setBoard(selectedBoard)
   }, [boardID])
 
   console.log(board)
   return (
     <div className={styles.dashboard}>
-      {board && <h2>{board.name}</h2>}
+      {board && <Board {...board} />}
       {!board && <NotFound />}
     </div>
   )

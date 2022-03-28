@@ -10,6 +10,7 @@
   max-width: 200px;
   height: 100%;
   box-shadow: 3px 0px 25px rgb(0 0 0 / 8%);
+  z-index: 1;
 }
 
 .user {
@@ -51,7 +52,7 @@
   opacity: 0;
   transform: translateY(-100%);
 
-  transition: all 0.5s ease-in-out;
+  transition: all 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
 .boards_menu.expanded {
