@@ -6,15 +6,18 @@ import AddIcon from '@mui/icons-material/Add'
 const dummyStatusData = [
   {
     id: 1,
-    type: 'Planned',
+    name: 'Planned',
+    type: 'planned',
   },
   {
     id: 2,
-    type: 'In progress',
+    name: 'In progress',
+    type: 'in_progress',
   },
   {
     id: 3,
-    type: 'Completed',
+    name: 'Completed',
+    type: 'completed',
   },
 ]
 
@@ -30,8 +33,18 @@ const Board = ({ id, name }) => {
       </div>
       <div className={styles.tasks}>
         {dummyStatusData.map((status) => (
-          <div className={styles.status_column} key={status.id}>
-            {status.type}
+          <div
+            className={`${styles.status_column} ${styles[status.type]}`}
+            key={status.id}
+          >
+            <div className={styles.status_column__header}>
+              <span>{status.name}</span>
+            </div>
+            <div className={styles.tasks_container}>
+              <div className={styles.task}>
+                <div className={styles.task__header}>Task title</div>
+              </div>
+            </div>
           </div>
         ))}
       </div>

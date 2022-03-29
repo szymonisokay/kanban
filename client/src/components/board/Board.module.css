@@ -1,5 +1,7 @@
 .board {
   height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .header {
@@ -8,6 +10,7 @@
   align-items: center;
   padding: 30px 20px;
   border-bottom: 1px solid #eeeeee;
+  flex: 1 1;
 }
 
 .header button {
@@ -36,8 +39,63 @@
 .tasks {
   display: flex;
   padding: 20px;
+  flex: 12 1;
+  gap: 20px;
 }
 
 .tasks :is(.status_column) {
   flex: 1;
+}
+
+.status_column {
+  --planned: #474bba;
+  --completed: #44bd54;
+  --spread: -23px;
+  --blur: 20px;
+
+  border: 2px solid var(--hover);
+  border-radius: 6px;
+}
+
+.status_column__header {
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 20px;
+  border-bottom: 4px solid var(--gray);
+  box-shadow: 0px 20px var(--blur) var(--spread) var(--gray);
+}
+
+.status_column__header span {
+  color: var(--gray);
+  font-weight: 500;
+}
+
+/* .status_column.planned .status_column__header {
+  border-bottom: 2px solid var(--planned);
+  box-shadow: 0px 20px var(--blur) var(--spread) var(--planned);
+}
+
+.status_column.planned .status_column__header span {
+  color: var(--planned);
+}
+
+.status_column.completed .status_column__header {
+  border-bottom: 2px solid var(--completed);
+  box-shadow: 0px 20px var(--blur) var(--spread) var(--completed);
+}
+
+.status_column.completed .status_column__header span {
+  color: var(--completed);
+} */
+
+.tasks_container {
+  padding: 20px;
+}
+
+.task {
+  border: 2px solid var(--hover);
+  padding: 10px;
+  border-radius: 6px;
 }
