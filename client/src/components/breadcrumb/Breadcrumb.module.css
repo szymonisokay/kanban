@@ -1,0 +1,17 @@
+.breadcrumb__box {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.breadcrumb__box a {
+  color: var(--text);
+}
+
+.breadcrumb__box a.active {
+  color: var(--textActive);
+}
+
+.divider {
+  color: var(--textActive);
+  padding: 0 5px;
+}

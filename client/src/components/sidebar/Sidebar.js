@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Sidebar.module.css'
-import { useSearchParams, Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import DashboardIcon from '@mui/icons-material/Dashboard'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import GroupsIcon from '@mui/icons-material/Groups'
 import LogoutIcon from '@mui/icons-material/Logout'
-import AddIcon from '@mui/icons-material/Add'
+import HomeIcon from '@mui/icons-material/Home'
 
 const dummyBoardData = [
   {
@@ -23,67 +23,68 @@ const dummyBoardData = [
 ]
 
 const Sidebar = () => {
-  const [expanded, setExpanded] = useState(false)
-  const [active, setActive] = useState(0)
-  const [search, setSearch] = useSearchParams()
-
-  const openBoard = (id) => {
-    setSearch({ board: id })
-  }
-
-  useEffect(() => {
-    setActive(+search.get('board'))
-  }, [search])
+  const location = useLocation()
 
   return (
     <div className={styles.sidebar}>
-      <Link to='/'>
-        <div className={styles.user}>
-          <img
-            src='https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80'
-            alt='person'
-          />
+      <div className={styles.user}>
+        <img
+          src='https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+          alt='Person'
+        />
+        <div>
           <span>John Doe</span>
         </div>
-      </Link>
-      <div className={styles.board_list}>
-        <p
-          className={expanded ? styles.expanded : undefined}
-          onClick={() => setExpanded(!expanded)}
-        >
-          <DashboardIcon />
-          <span>Boards</span>
-          <ExpandMoreIcon className={styles.expanded_icon} />
-        </p>
-        <div
-          className={`${styles.boards_menu} ${
-            expanded ? styles.expanded : undefined
-          }`}
-        >
+      </div>
+      <div className={styles.divider} />
+      <div className={styles.sidebar__menu}>
+        <nav>
           <ul>
-            {dummyBoardData.map((board) => (
-              <li
-                key={board.id}
-                className={active === board.id ? styles.active : undefined}
-                onClick={() => openBoard(board.id)}
-              >
-                {board.name}
-              </li>
-            ))}
+            <li
+              className={location.pathname === '/' ? styles.active : undefined}
+            >
+              <Link to='/'>
+                <HomeIcon />
+                <span>Dashboard</span>
+              </Link>
+            </li>
+            <li
+              className={
+                location.pathname.includes('/boards')
+                  ? styles.active
+                  : undefined
+              }
+            >
+              <Link to='/boards'>
+                <DashboardIcon />
+                <span>Boards</span>
+              </Link>
+            </li>
+            <li
+              className={
+                location.pathname.includes('/teams') ? styles.active : undefined
+              }
+            >
+              <Link to='/teams'>
+                <GroupsIcon />
+                <span>Teams</span>
+              </Link>
+            </li>
           </ul>
-          <p>
-            <AddIcon />
-            <span>Add new board</span>
-          </p>
+        </nav>
+        <div className={styles.logout}>
+          <ul>
+            <li>
+              <Link to='/'>
+                <LogoutIcon />
+                <span>Logout</span>
+              </Link>
+            </li>
+          </ul>
         </div>
       </div>
-      <div className={styles.logout}>
-        <p>
-          <LogoutIcon /> <span>Logout</span>
-        </p>
-      </div>
       <div className={styles.copyright}>
-        &copy; {new Date().getFullYear()} Szymon Wałach
+        <span>&copy; {new Date().getFullYear()} Szymon Wałach</span>
       </div>
     </div>
   )

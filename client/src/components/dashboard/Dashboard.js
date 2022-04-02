@@ -4,6 +4,7 @@ import { useSearchParams } from 'react-router-dom'
 
 import NotFound from '../notFound/NotFound'
 import Board from '../board/Board'
+import Breadcrumb from '../breadcrumb/Breadcrumb'
 
 const dummyBoardData = [
   {
@@ -21,22 +22,11 @@ const dummyBoardData = [
 ]
 
 const Dashboard = () => {
-  const [params] = useSearchParams()
-  const boardID = +params.get('board')
-
-  const [board, setBoard] = useState({ id: 0, name: '' })
-
-  useEffect(() => {
-    const selectedBoard = dummyBoardData.find((board) => board.id === boardID)
-
-    setBoard(selectedBoard)
-  }, [boardID])
-
-  console.log(board)
   return (
     <div className={styles.dashboard}>
-      {board && <Board {...board} />}
-      {!board && <NotFound />}
+      <header className='header'>
+        <Breadcrumb />
+      </header>
     </div>
   )
 }
