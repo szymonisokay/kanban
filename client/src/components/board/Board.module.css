@@ -1,6 +1,89 @@
 .board {
-  background: var(--main);
-  min-height: 200px;
-  padding: 20px;
+  height: auto;
   border-radius: 6px;
+  box-shadow: 0px 1px 5px rgb(0 0 0 / 10%);
+}
+
+.board__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 10px 20px 20px;
+}
+
+.board__header p {
+  font-weight: 500;
+  color: var(--textActive);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.board__header span {
+  color: var(--text);
+  font-size: 0.8em;
+}
+
+.board__header svg {
+  cursor: pointer;
+  color: var(--text);
+  transition: all 0.3s ease-in-out;
+}
+
+.board__header svg:hover {
+  color: var(--textActive);
+}
+
+.board__content {
+  padding: 0px 20px;
+}
+
+.board__content p {
+  color: var(--text);
+}
+
+.board__footer {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.board__footer .created {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text);
+  font-size: 0.8rem;
+}
+
+.board__footer .created svg {
+  font-size: 18px;
+}
+
+.board__footer .users {
+  display: flex;
+  gap: 2px;
+}
+
+.board__footer .users .user__img {
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  object-fit: cover;
+  border: 2px solid var(--text);
+  cursor: pointer;
+}
+
+.board__footer .users span {
+  width: 25px;
+  height: 25px;
+  border-radius: 100%;
+  background: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--main);
+  cursor: pointer;
 }

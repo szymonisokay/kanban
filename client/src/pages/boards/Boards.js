@@ -1,11 +1,10 @@
 import React from 'react'
-import styles from './Dashboard.module.css'
+import styles from './Boards.module.css'
 
-import Breadcrumb from '../breadcrumb/Breadcrumb'
-import Boards from '../board/Boards'
+import Breadcrumb from '../../components/breadcrumb/Breadcrumb'
+import BoardsList from '../../components/board/Boards'
 
 import AddIcon from '@mui/icons-material/Add'
-import { Link } from 'react-router-dom'
 
 const boardsData = [
   {
@@ -149,36 +148,18 @@ const boardsData = [
   },
 ]
 
-const Dashboard = () => {
+const Boards = () => {
   return (
-    <div className={styles.dashboard}>
+    <div className={styles.boards}>
       <header className='header'>
         <Breadcrumb />
       </header>
-      <div className={styles.dashboard_content}>
-        <div className={styles.dashboard_content__header}>
-          <h3>
-            <Link to='/boards'>Boards</Link>
-          </h3>
-          <button>
-            <AddIcon />
-            <span>Add board</span>
-          </button>
-        </div>
-        <Boards boards={boardsData} />
-
-        <div className={styles.dashboard_content__header}>
-          <h3>
-            <Link to='/teams'>Teams</Link>
-          </h3>
-          <button>
-            <AddIcon />
-            <span>Add Team</span>
-          </button>
-        </div>
+      <BoardsList boards={boardsData} />
+      <div className={styles.add_board} title='Add new board'>
+        <AddIcon />
       </div>
     </div>
   )
 }
 
-export default Dashboard
+export default Boards

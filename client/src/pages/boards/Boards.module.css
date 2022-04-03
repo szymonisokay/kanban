@@ -1,0 +1,25 @@
+.boards {
+  flex: 2;
+}
+
+.add_board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  position: fixed;
+  padding: 20px;
+  bottom: 20px;
+  right: 20px;
+  background: var(--main);
+  border-radius: 50%;
+  box-shadow: 0px 0px 5px rgb(0 0 0 / 10%);
+  cursor: pointer;
+  z-index: 10;
+
+  transition: all 0.3s ease-in-out;
+}
+
+.add_board:hover {
+  background: var(--accent);
+}

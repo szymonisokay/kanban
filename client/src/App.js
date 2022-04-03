@@ -1,9 +1,10 @@
 import './App.css'
 import Dashboard from './components/dashboard/Dashboard'
 import Sidebar from './components/sidebar/Sidebar'
-import Boards from './components/board/Boards'
+import Boards from './pages/boards/Boards'
 import Teams from './components/teams/Teams'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import SingleBoard from './components/board/SingleBoard'
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Dashboard />} />
           <Route path='/boards' element={<Boards />} />
+          <Route path='/boards/:name' element={<SingleBoard />} />
           <Route path='/teams' element={<Teams />} />
         </Routes>
       </Router>
