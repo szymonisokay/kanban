@@ -22,6 +22,17 @@ export const getSingleBoard = createAsyncThunk(
       .then((res) => res.data.board)
 )
 
+export const addBoard = createAsyncThunk(
+  'board/addBoard',
+  async ({ name, desc }) =>
+    axios
+      .post('http://localhost:5000/api/boards/', {
+        name,
+        desc,
+      })
+      .then((res) => res.data.board)
+)
+
 export const boardSlice = createSlice({
   name: 'board',
   initialState,
@@ -38,6 +49,13 @@ export const boardSlice = createSlice({
     },
     [getSingleBoard.fulfilled]: (state, action) => {
       state.value = action.payload
+      state.status = 'success'
+    },
+    [addBoard.pending]: (state) => {
+      state.status = 'loading'
+    },
+    [addBoard.fulfilled]: (state, action) => {
+      state.value = [...state.value, action.payload]
       state.status = 'success'
     },
   },

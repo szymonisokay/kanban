@@ -7,7 +7,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime'
 
 import moment from 'moment'
 
-const Board = ({ id, name, desc, users, tasks, createdAt }) => {
+const Board = ({ _id, name, desc, users, tasks, createdAt }) => {
   const usersToShow = users.slice(0, 2)
   const usersRest = users.slice(2)
 
