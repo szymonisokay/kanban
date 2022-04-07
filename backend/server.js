@@ -1,17 +1,24 @@
-const bodyParser = require('body-parser')
 const express = require('express')
+const cors = require('cors')
 require('dotenv').config()
+
 const connectToDB = require('./db')
+const { errorHandler } = require('./middleware/ErrorMiddleware')
 
 const BoardRoutes = require('./routes/BoardRoutes')
+const TaskRoutes = require('./routes/TaskRoutes')
 
 const app = express()
 const PORT = process.env.PORT || 5000
 
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use(cors())
 
 app.use('/api/boards', BoardRoutes)
+app.use('/api/tasks', TaskRoutes)
+
+app.use(errorHandler)
 
 app.listen(PORT, () => {
   connectToDB(process.env.MONGO_URI)

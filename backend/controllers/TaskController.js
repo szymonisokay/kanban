@@ -1,0 +1,41 @@
+const asyncHandler = require('express-async-handler')
+const Task = require('../models/TaskModel')
+const Board = require('../models/BoardModel')
+
+const getTask = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const task = await Task.findById(id)
+
+  await Task.populate(task, { path: 'status' })
+
+  res.status(200).json({ task })
+})
+
+const getTasksFromBoard = asyncHandler(async (req, res) => {
+  const { boardId } = req.body
+
+  const tasks = await Task.find({ boardId })
+
+  await Task.populate(tasks, { path: 'status' })
+
+  res.status(200).json({ tasks })
+})
+
+const createTask = asyncHandler(async (req, res) => {
+  const { name, boardId } = req.body
+  const task = await Task.create({ name, boardId })
+
+  await Task.populate(task, { path: 'status' })
+
+  const board = await Board.findById(boardId)
+  board.tasks.push(task._id)
+  board.save()
+
+  res.status(201).json({ task })
+})
+
+module.exports = {
+  getTask,
+  getTasksFromBoard,
+  createTask,
+}

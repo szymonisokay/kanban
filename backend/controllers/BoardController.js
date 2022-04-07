@@ -1,21 +1,31 @@
+const asyncHandler = require('express-async-handler')
 const Board = require('../models/BoardModel')
 
-const getBoards = (req, res) => {
-  res.status(200).json({ msg: 'hello' })
-}
+const getSingleBoard = asyncHandler(async (req, res) => {
+  const { id } = req.params
+  const board = await Board.findById(id)
 
-const createBoard = async (req, res) => {
+  await Board.populate(board, { path: 'tasks', populate: { path: 'status' } })
+
+  res.status(200).json({ board })
+})
+
+const getBoards = asyncHandler(async (req, res) => {
+  const boards = await Board.find({})
+
+  res.status(200).json({ boards })
+})
+
+const createBoard = asyncHandler(async (req, res) => {
   const { name } = req.body
-  try {
-    const board = await Board.create({ name })
-    res.status(201).json({ board })
-  } catch (error) {
-    console.log(error)
-    res.status(400).json({ error })
-  }
-}
+
+  const board = await Board.create({ name })
+
+  res.status(201).json({ board })
+})
 
 module.exports = {
+  getSingleBoard,
   getBoards,
   createBoard,
 }
