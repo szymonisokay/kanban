@@ -7,7 +7,7 @@ const Boards = ({ boards }) => {
     <>
       <div className={styles.boards__content}>
         {boards.map((board) => (
-          <Board key={board.id} {...board} />
+          <Board key={board._id} {...board} />
         ))}
       </div>
     </>

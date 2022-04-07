@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './Dashboard.module.css'
 
 import Breadcrumb from '../breadcrumb/Breadcrumb'
 import Boards from '../board/Boards'
+import Loading from '../loading/Loading'
 
 import AddIcon from '@mui/icons-material/Add'
 import { Link } from 'react-router-dom'
+
+import { useDispatch, useSelector } from 'react-redux'
+import { getBoards } from '../../features/boards/boardSlice'
 
 const boardsData = [
   {
@@ -150,6 +154,13 @@ const boardsData = [
 ]
 
 const Dashboard = () => {
+  const dispatch = useDispatch()
+  const boards = useSelector((state) => state.board)
+
+  useEffect(() => {
+    dispatch(getBoards())
+  }, [dispatch])
+
   return (
     <div className={styles.dashboard}>
       <header className='header'>
@@ -165,7 +176,8 @@ const Dashboard = () => {
             <span>Add board</span>
           </button>
         </div>
-        <Boards boards={boardsData} />
+        {boards.status === 'loading' && <Loading />}
+        {boards.status === 'success' && <Boards boards={boards.value} />}
 
         <div className={styles.dashboard_content__header}>
           <h3>

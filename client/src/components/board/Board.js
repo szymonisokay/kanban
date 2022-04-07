@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import AccessTimeIcon from '@mui/icons-material/AccessTime'
 
+import moment from 'moment'
+
 const Board = ({ id, name, desc, users, tasks, createdAt }) => {
   const usersToShow = users.slice(0, 2)
   const usersRest = users.slice(2)
@@ -26,7 +28,7 @@ const Board = ({ id, name, desc, users, tasks, createdAt }) => {
       <div className={styles.board__footer}>
         <div className={styles.created}>
           <AccessTimeIcon />
-          <span>{createdAt}</span>
+          <span>{moment(createdAt).format('DD MMM YYYY')}</span>
         </div>
         <div className={styles.users}>
           {usersToShow.map((user) => (

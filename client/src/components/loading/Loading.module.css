@@ -1,0 +1,10 @@
+.loading_box {
+  width: 100%;
+  min-height: 200px;
+  display: grid;
+  place-content: center;
+}
+
+.loading_box span {
+  color: var(--textActive);
+}
