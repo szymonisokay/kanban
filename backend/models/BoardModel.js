@@ -7,10 +7,6 @@ const BoardSchema = mongoose.Schema(
       required: [true, 'Please specify board name.'],
       unique: true,
     },
-    uri: {
-      type: String,
-      unique: true,
-    },
     desc: {
       type: String,
       default: 'Short description about the project',
@@ -32,9 +28,5 @@ const BoardSchema = mongoose.Schema(
   },
   { timestamps: true }
 )
-
-BoardSchema.pre('save', async function () {
-  console.log(this.name)
-})
 
 module.exports = mongoose.model('Board', BoardSchema)

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import styles from './Dashboard.module.css'
 
-import Breadcrumb from '../breadcrumb/Breadcrumb'
 import Boards from '../board/Boards'
 import Loading from '../loading/Loading'
 
@@ -163,9 +162,6 @@ const Dashboard = () => {
 
   return (
     <div className={styles.dashboard}>
-      <header className='header'>
-        <Breadcrumb />
-      </header>
       <div className={styles.dashboard_content}>
         <div className={styles.dashboard_content__header}>
           <h3>

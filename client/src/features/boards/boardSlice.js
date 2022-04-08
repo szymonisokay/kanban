@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 const initialState = {
-  value: {},
+  value: [],
   status: 'loading',
 }
 
@@ -16,9 +16,9 @@ export const getBoards = createAsyncThunk(
 
 export const getSingleBoard = createAsyncThunk(
   'board/getSingleBoard',
-  async ({ boardName }) =>
+  async ({ id }) =>
     await axios
-      .get(`http://localhost:5000/api/boards/${boardName}`)
+      .get(`http://localhost:5000/api/boards/${id}`)
       .then((res) => res.data.board)
 )
 
@@ -48,7 +48,8 @@ export const boardSlice = createSlice({
       state.status = 'loading'
     },
     [getSingleBoard.fulfilled]: (state, action) => {
-      state.value = action.payload
+      state.value = []
+      state.value = [...state.value, action.payload]
       state.status = 'success'
     },
     [addBoard.pending]: (state) => {

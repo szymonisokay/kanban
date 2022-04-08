@@ -2,13 +2,9 @@ const asyncHandler = require('express-async-handler')
 const Board = require('../models/BoardModel')
 
 const getSingleBoard = asyncHandler(async (req, res) => {
-  const { name } = req.params
+  const { id } = req.params
 
-  const convertedName = (name.charAt(0).toUpperCase() + name.slice(1)).replace(
-    '-',
-    ' '
-  )
-  const board = await Board.find({ name: convertedName })
+  const board = await Board.findById(id)
 
   await Board.populate(board, { path: 'tasks', populate: { path: 'status' } })
 

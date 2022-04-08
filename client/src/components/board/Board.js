@@ -14,7 +14,7 @@ const Board = ({ _id, name, desc, users, tasks, createdAt }) => {
   return (
     <div className={styles.board}>
       <header className={styles.board__header}>
-        <Link to={`/boards/${name.replace(' ', '-').toLowerCase()}`}>
+        <Link to={`/boards/${_id}`}>
           <p>
             {name}
             <span>({tasks.length})</span>

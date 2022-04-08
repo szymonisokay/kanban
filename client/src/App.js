@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Dashboard />} />
           <Route path='/boards' element={<Boards />} />
-          <Route path='/boards/:name' element={<SingleBoard />} />
+          <Route path='/boards/:id' element={<SingleBoard />} />
           <Route path='/teams' element={<Teams />} />
         </Routes>
       </Router>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Boards.module.css'
 
-import Breadcrumb from '../../components/breadcrumb/Breadcrumb'
 import BoardsList from '../../components/board/Boards'
 
 import AddIcon from '@mui/icons-material/Add'
@@ -28,11 +27,10 @@ const Boards = () => {
     dispatch(getBoards())
   }, [dispatch])
 
+  console.log(boards)
+
   return (
     <div className={styles.boards}>
-      <header className='header'>
-        <Breadcrumb />
-      </header>
       {boards.status === 'loading' && <Loading />}
       {boards.status === 'success' && (
         <>
