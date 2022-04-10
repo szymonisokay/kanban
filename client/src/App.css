@@ -20,13 +20,14 @@ a {
 }
 
 .page {
-  display: flex;
-  height: 100vh;
+  height: 100%;
   max-width: 1400px;
   margin: auto;
 }
 
-.header {
-  padding: 20px;
-  border-bottom: 2px solid var(--accent);
+.global_action_btn {
+  position: fixed !important;
+  bottom: 20px;
+  right: 20px;
+  z-index: 50 !important;
 }
