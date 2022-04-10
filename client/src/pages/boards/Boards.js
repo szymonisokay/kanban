@@ -3,50 +3,45 @@ import styles from './Boards.module.css'
 
 import BoardsList from '../../components/board/Boards'
 
-import AddIcon from '@mui/icons-material/Add'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBoards } from '../../features/boards/boardSlice'
 import Loading from '../../components/loading/Loading'
-import Modal from '../../components/modal/Modal'
+import { DashboardCustomize } from '@mui/icons-material'
+import Menu from '../../components/menu/Menu'
+import ModalBox from '../../components/modal/ModalBox'
+
+const actions = [{ icon: <DashboardCustomize />, name: 'Board' }]
 
 const Boards = () => {
   const dispatch = useDispatch()
   const boards = useSelector((state) => state.board)
 
-  const [showModal, setShowModal] = useState(false)
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
-  const onModalClick = () => {
-    setShowModal(true)
-  }
-
-  const onCloseModal = () => {
-    setShowModal(false)
+  const handleItemClick = () => {
+    console.log('hello')
   }
 
   useEffect(() => {
     dispatch(getBoards())
   }, [dispatch])
 
-  console.log(boards)
-
   return (
     <div className={styles.boards}>
-      {boards.status === 'loading' && <Loading />}
-      {boards.status === 'success' && (
-        <>
-          <BoardsList boards={boards.value} />
-          <div
-            className={styles.add_board}
-            title='Add new board'
-            onClick={onModalClick}
-          >
-            <AddIcon />
-          </div>
-          {showModal && (
-            <Modal method='add' title='board' onCloseModal={onCloseModal} />
-          )}
-        </>
+      {boards.status === 'loading' ? (
+        <Loading />
+      ) : (
+        <BoardsList boards={boards.value} />
       )}
+      <Menu
+        actions={actions}
+        open={open}
+        handleClose={handleClose}
+        handleOpen={handleOpen}
+        handleItemClick={handleItemClick}
+      />
     </div>
   )
 }

@@ -8,23 +8,23 @@ import Loading from '../loading/Loading'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBoards } from '../../features/boards/boardSlice'
 
-import { Add } from '@mui/icons-material'
-import { Typography, Fab, Backdrop } from '@mui/material'
-import ModalBox from '../modal/Modal'
+import { DashboardCustomize, GroupAdd } from '@mui/icons-material'
+import { Typography } from '@mui/material'
+import Menu from '../menu/Menu'
+
+const actions = [
+  { icon: <DashboardCustomize />, name: 'Board' },
+  { icon: <GroupAdd />, name: 'Team' },
+]
 
 const Dashboard = () => {
   const dispatch = useDispatch()
   const boards = useSelector((state) => state.board)
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [open, setOpen] = React.useState(false)
 
-  const handleOpen = () => {
-    setIsModalOpen(!isModalOpen)
-  }
-
-  const handleClose = () => {
-    setIsModalOpen(false)
-  }
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
 
   useEffect(() => {
     dispatch(getBoards())
@@ -32,12 +32,12 @@ const Dashboard = () => {
 
   return (
     <div className={styles.dashboard}>
-      {isModalOpen && (
-        <ModalBox isOpen={isModalOpen} handleClose={handleClose} />
-      )}
-      <Fab color='primary' className='global_action_btn' onClick={handleOpen}>
-        <Add />
-      </Fab>
+      <Menu
+        actions={actions}
+        open={open}
+        handleClose={handleClose}
+        handleOpen={handleOpen}
+      />
       <div className={styles.dashboard_content}>
         <div className={styles.dashboard_content__header}>
           <h3>
