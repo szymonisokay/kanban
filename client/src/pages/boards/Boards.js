@@ -17,12 +17,12 @@ const Boards = () => {
   const boards = useSelector((state) => state.board)
 
   const [open, setOpen] = useState(false)
+  const [openModal, setOpenModal] = useState(false)
+
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-
-  const handleItemClick = () => {
-    console.log('hello')
-  }
+  const handleItemClick = () => setOpenModal(true)
+  const handleModalClose = () => setOpenModal(false)
 
   useEffect(() => {
     dispatch(getBoards())
@@ -42,6 +42,13 @@ const Boards = () => {
         handleOpen={handleOpen}
         handleItemClick={handleItemClick}
       />
+      {openModal && (
+        <ModalBox
+          isOpen={openModal}
+          handleClose={handleModalClose}
+          title='board'
+        />
+      )}
     </div>
   )
 }

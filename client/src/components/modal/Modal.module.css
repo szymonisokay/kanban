@@ -26,51 +26,9 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-top: 2rem;
-}
-
-.form_control {
-  position: relative;
-}
-
-.form_control :is(input, textarea) {
-  border: 2px solid var(--text);
-  padding: 15px 10px;
-  outline: none;
-  border-radius: 6px;
-  width: 100%;
-  resize: none;
-
-  transition: border-color 0.3s ease-in-out;
-}
-
-.form_control label {
-  position: absolute;
-  top: 0%;
-  left: 10px;
-  transform: translateY(-50%);
-  font-size: 14px;
-  background: #fff;
-  padding: 5px;
-  color: var(--text);
-
-  transition: color 0.3s ease-in-out;
-}
-
-.form_control :is(input, textarea):focus {
-  border-color: var(--textActive);
-}
-
-.form_control :is(input, textarea):focus ~ label {
-  color: var(--textActive);
+  margin-top: 1rem;
 }
 
 .modal form button {
-  border: none;
-  outline: none;
   padding: 10px;
-  border-radius: 6px;
-  background: var(--textActive);
-  color: var(--main);
-  cursor: pointer;
 }

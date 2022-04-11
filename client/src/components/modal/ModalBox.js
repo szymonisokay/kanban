@@ -12,49 +12,62 @@ import {
   InputLabel,
   Select,
   MenuItem,
+  Typography,
+  Input,
+  TextField,
+  Button,
 } from '@mui/material'
 
 const ModalBox = ({ method, title, isOpen, handleClose }) => {
-  const nameInputRef = useRef()
-  const descInputRef = useRef()
-
-  const [type, setType] = useState('')
+  const [formData, setFormData] = useState({
+    name: '',
+    desc: '',
+  })
 
   const dispatch = useDispatch()
 
   const onFormSubmit = (e) => {
     e.preventDefault()
 
-    const name = nameInputRef.current.value
-    const desc = descInputRef.current.value
+    console.log(formData)
+    // if (!name) {
+    //   return
+    // }
 
-    if (!name) {
-      return
-    }
-
-    dispatch(addBoard({ name, desc }))
-  }
-
-  const handleTypeChange = (event) => {
-    setType(event.target.value)
+    dispatch(addBoard({ name: formData.name, desc: formData.desc }))
+    handleClose()
   }
 
   return (
     <>
-      <Modal open={isOpen}>
+      <Modal open={isOpen} onBackdropClick={handleClose}>
         <Box className={styles.modal}>
-          <FormControl fullWidth>
-            <InputLabel id='type'>Select what to add</InputLabel>
-            <Select
-              labelId='type'
-              value={type}
-              onChange={handleTypeChange}
-              label='Select what to add'
-            >
-              <MenuItem value='board'>New board</MenuItem>
-              <MenuItem value='team'>New team</MenuItem>
-            </Select>
-          </FormControl>
+          <Typography variant='h6' fontWeight={700} color='dark'>
+            Add new {title}
+          </Typography>
+          <form onSubmit={onFormSubmit}>
+            <TextField
+              id='name'
+              variant='outlined'
+              label='Name'
+              autoComplete='off'
+              value={formData.name}
+              onChange={(e) => setFormData({ name: e.target.value })}
+            />
+            <TextField
+              id='desc'
+              variant='outlined'
+              multiline
+              rows={4}
+              label='Description'
+              value={formData.desc}
+              onChange={(e) => setFormData({ desc: e.target.value })}
+            />
+
+            <Button variant='contained' type='submit' onClick={onFormSubmit}>
+              Add
+            </Button>
+          </form>
         </Box>
       </Modal>
     </>
