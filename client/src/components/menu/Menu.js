@@ -10,6 +10,7 @@ const Menu = ({ actions, handleClose, handleOpen, open, handleItemClick }) => {
       onClose={handleClose}
       onOpen={handleOpen}
       open={open}
+      className='speeddial_menu'
     >
       {actions.map((action) => (
         <SpeedDialAction

@@ -2,8 +2,17 @@ import React from 'react'
 import styles from './Board.module.css'
 import { Link } from 'react-router-dom'
 
-import MoreVertIcon from '@mui/icons-material/MoreVert'
-import AccessTimeIcon from '@mui/icons-material/AccessTime'
+import { MoreVert, AccessTime } from '@mui/icons-material'
+
+import {
+  Avatar,
+  Card,
+  CardActions,
+  CardContent,
+  CardHeader,
+  IconButton,
+  Typography,
+} from '@mui/material'
 
 import moment from 'moment'
 
@@ -13,14 +22,14 @@ const Board = ({ _id, name, desc, users, tasks, createdAt }) => {
 
   return (
     <div className={styles.board}>
-      <header className={styles.board__header}>
+      {/* <header className={styles.board__header}>
         <Link to={`/boards/${_id}`}>
           <p>
             {name}
             <span>({tasks.length})</span>
           </p>
         </Link>
-        <MoreVertIcon />
+        <MoreVert />
       </header>
       <div className={styles.board__content}>
         {desc && <p>{desc.slice(0, 120)}...</p>}
@@ -42,7 +51,29 @@ const Board = ({ _id, name, desc, users, tasks, createdAt }) => {
           ))}
           {usersRest.length > 0 && <span>+{usersRest.length}</span>}
         </div>
-      </div>
+      </div> */}
+      <Card>
+        <CardHeader
+          // avatar={<Avatar>SZ</Avatar>}
+          action={
+            <IconButton>
+              <MoreVert />
+            </IconButton>
+          }
+          title={<Typography variant='body1'>{name}</Typography>}
+          subheader={
+            <Typography variant='subtitle2' color='gray'>
+              {moment(createdAt).format('DD MMM YYYY')}
+            </Typography>
+          }
+        />
+        <CardContent>
+          <Typography variant='body2' color='gray'>
+            {desc}
+          </Typography>
+        </CardContent>
+        <CardActions></CardActions>
+      </Card>
     </div>
   )
 }

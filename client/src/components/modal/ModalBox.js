@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import styles from './Modal.module.css'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
 import { addBoard } from '../../features/boards/boardSlice'
 
@@ -25,17 +25,19 @@ const ModalBox = ({ method, title, isOpen, handleClose }) => {
   })
 
   const dispatch = useDispatch()
+  const board = useSelector((state) => state.board)
 
   const onFormSubmit = (e) => {
     e.preventDefault()
 
     console.log(formData)
-    // if (!name) {
-    //   return
-    // }
+    if (!formData.name) {
+      return handleClose()
+    }
 
     dispatch(addBoard({ name: formData.name, desc: formData.desc }))
-    handleClose()
+    console.log(board)
+    // handleClose()
   }
 
   return (

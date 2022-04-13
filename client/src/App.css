@@ -31,3 +31,7 @@ a {
   right: 20px;
   z-index: 50 !important;
 }
+
+.speeddial_menu {
+  position: fixed !important;
+}
