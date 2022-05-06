@@ -5,6 +5,7 @@ import Boards from './pages/boards/Boards'
 import Teams from './components/teams/Teams'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import SingleBoard from './components/board/SingleBoard'
+import Login from './pages/login/Login'
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path='/boards' element={<Boards />} />
           <Route path='/boards/:id' element={<SingleBoard />} />
           <Route path='/teams' element={<Teams />} />
+          <Route path='/login' element={<Login />} />
         </Routes>
       </Router>
     </div>

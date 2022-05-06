@@ -13,12 +13,17 @@ import {
 } from '@mui/material'
 import { ExpandMore, AccountCircleOutlined, Logout } from '@mui/icons-material'
 
+import { useSelector } from 'react-redux'
+
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const user = useSelector((state) => state.users)
 
   const handleOpen = () => {
     setIsOpen(!isOpen)
   }
+
+  console.log(user)
 
   return (
     <header className={styles.header}>
@@ -65,40 +70,44 @@ const Header = () => {
           </ul>
         </nav>
       </div>
-      <div className={styles.user}>
-        <div className={styles.user_content}>
-          <Avatar
-            src='https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
-            alt='John Doe'
-          />
-          <div className={styles.user_info}>
-            <Typography variant='body1'>John Doe</Typography>
-            <IconButton className={styles.user_menu_btn} onClick={handleOpen}>
-              <ExpandMore />
-            </IconButton>
+      {user.auth ? (
+        <div className={styles.user}>
+          <div className={styles.user_content}>
+            <Avatar
+              src='https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+              alt='John Doe'
+            />
+            <div className={styles.user_info}>
+              <Typography variant='body1'>{user.value.name}</Typography>
+              <IconButton className={styles.user_menu_btn} onClick={handleOpen}>
+                <ExpandMore />
+              </IconButton>
+            </div>
           </div>
+          <Box
+            className={`${styles.user_menu} ${
+              isOpen ? styles.active : undefined
+            }`}
+          >
+            <MenuList sx={{ width: '100%' }}>
+              <MenuItem>
+                <ListItemIcon>
+                  <AccountCircleOutlined fontSize='small' />
+                </ListItemIcon>
+                <ListItemText>Account</ListItemText>
+              </MenuItem>
+              <MenuItem>
+                <ListItemIcon>
+                  <Logout fontSize='small' />
+                </ListItemIcon>
+                <ListItemText>Log out</ListItemText>
+              </MenuItem>
+            </MenuList>
+          </Box>
         </div>
-        <Box
-          className={`${styles.user_menu} ${
-            isOpen ? styles.active : undefined
-          }`}
-        >
-          <MenuList sx={{ width: '100%' }}>
-            <MenuItem>
-              <ListItemIcon>
-                <AccountCircleOutlined fontSize='small' />
-              </ListItemIcon>
-              <ListItemText>Account</ListItemText>
-            </MenuItem>
-            <MenuItem>
-              <ListItemIcon>
-                <Logout fontSize='small' />
-              </ListItemIcon>
-              <ListItemText>Log out</ListItemText>
-            </MenuItem>
-          </MenuList>
-        </Box>
-      </div>
+      ) : (
+        <Link to='/login'>Login</Link>
+      )}
     </header>
   )
 }

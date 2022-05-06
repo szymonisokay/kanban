@@ -27,7 +27,7 @@ const userSlice = createSlice({
     },
     [loginUser.fulfilled]: (state, action) => {
       state.status = 'loading'
-      state.value = action
+      state.value = action.payload
       state.auth = true
     },
   },

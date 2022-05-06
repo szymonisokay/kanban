@@ -1,0 +1,17 @@
+.container {
+  /* padding-top: 100px; */
+  height: 100vh;
+  display: grid;
+  place-content: center;
+}
+
+.card {
+  padding: 20px 30px;
+}
+
+form {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
