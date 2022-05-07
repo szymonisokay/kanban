@@ -53,10 +53,22 @@
   background: #fff;
 }
 
+.user_content {
+  cursor: pointer;
+}
+
 .user .user_info {
   display: flex;
   gap: 10px;
   align-items: center;
+}
+
+.user_menu_btn {
+  transition: all 0.3s ease-in-out !important;
+}
+
+.user_menu_btn.active {
+  transform: rotate(-180deg);
 }
 
 .user_menu {

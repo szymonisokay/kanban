@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Header.module.css'
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
   Typography,
   Avatar,
@@ -13,17 +13,23 @@ import {
 } from '@mui/material'
 import { ExpandMore, AccountCircleOutlined, Logout } from '@mui/icons-material'
 
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { logoutUser } from '../../features/users/userSlice'
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
-  const user = useSelector((state) => state.users)
+  const { user } = useSelector((state) => state.users)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleOpen = () => {
     setIsOpen(!isOpen)
   }
 
-  console.log(user)
+  const logout = () => {
+    dispatch(logoutUser())
+    navigate('/login')
+  }
 
   return (
     <header className={styles.header}>
@@ -70,16 +76,24 @@ const Header = () => {
           </ul>
         </nav>
       </div>
-      {user.auth ? (
+      {user ? (
         <div className={styles.user}>
-          <div className={styles.user_content}>
-            <Avatar
-              src='https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
-              alt='John Doe'
-            />
+          <div className={styles.user_content} onClick={handleOpen}>
+            {user.image ? (
+              <Avatar src={user.image} alt={user.name} />
+            ) : (
+              <Avatar sx={{ bgcolor: 'primary.main' }}>
+                {' '}
+                {user.name.charAt(0).toUpperCase()}
+              </Avatar>
+            )}
             <div className={styles.user_info}>
-              <Typography variant='body1'>{user.value.name}</Typography>
-              <IconButton className={styles.user_menu_btn} onClick={handleOpen}>
+              <Typography variant='body1'>{user.name}</Typography>
+              <IconButton
+                className={`${styles.user_menu_btn} ${
+                  isOpen ? styles.active : undefined
+                }`}
+              >
                 <ExpandMore />
               </IconButton>
             </div>
@@ -96,7 +110,7 @@ const Header = () => {
                 </ListItemIcon>
                 <ListItemText>Account</ListItemText>
               </MenuItem>
-              <MenuItem>
+              <MenuItem onClick={logout}>
                 <ListItemIcon>
                   <Logout fontSize='small' />
                 </ListItemIcon>

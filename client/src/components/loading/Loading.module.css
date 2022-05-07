@@ -1,9 +1,12 @@
 .loading_box {
   width: 100%;
-  min-height: 200px;
   height: 100%;
   display: grid;
   place-content: center;
+}
+
+.loading_box.white span {
+  color: #fff;
 }
 
 .loading_box span {
