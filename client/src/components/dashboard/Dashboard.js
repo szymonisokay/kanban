@@ -1,33 +1,37 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Dashboard.module.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 import Boards from '../board/Boards'
 import Loading from '../loading/Loading'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getBoards } from '../../features/boards/boardSlice'
+import { getBoards, reset } from '../../features/boards/boardSlice'
 
 import { DashboardCustomize, GroupAdd } from '@mui/icons-material'
 import { Typography } from '@mui/material'
 import Menu from '../menu/Menu'
 
-const actions = [
-  { icon: <DashboardCustomize />, name: 'Board' },
-  { icon: <GroupAdd />, name: 'Team' },
-]
+const actions = [{ icon: <DashboardCustomize />, name: 'Board' }]
 
 const Dashboard = () => {
   const dispatch = useDispatch()
-  const boards = useSelector((state) => state.board)
+  const navigate = useNavigate()
+  const { boards, isLoading, isSuccess } = useSelector((state) => state.board)
 
   const [open, setOpen] = React.useState(false)
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
+  const handleMenuItemClick = () => {
+    navigate('/add-board')
+  }
+
   useEffect(() => {
     dispatch(getBoards())
+
+    return () => dispatch(reset())
   }, [dispatch])
 
   return (
@@ -37,6 +41,7 @@ const Dashboard = () => {
         open={open}
         handleClose={handleClose}
         handleOpen={handleOpen}
+        handleItemClick={handleMenuItemClick}
       />
       <div className={styles.dashboard_content}>
         <div className={styles.dashboard_content__header}>
@@ -48,21 +53,7 @@ const Dashboard = () => {
             </Link>
           </h3>
         </div>
-        {boards.status === 'loading' ? (
-          <Loading />
-        ) : (
-          <Boards boards={boards.value} />
-        )}
-
-        <div className={styles.dashboard_content__header}>
-          <h3>
-            <Link to='/teams'>
-              <Typography variant='h6' color='dark'>
-                Teams
-              </Typography>
-            </Link>
-          </h3>
-        </div>
+        {isLoading ? <Loading /> : <Boards boards={boards} />}
       </div>
     </div>
   )

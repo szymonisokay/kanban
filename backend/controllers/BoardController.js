@@ -8,21 +8,35 @@ const getSingleBoard = asyncHandler(async (req, res) => {
 
   await Board.populate(board, { path: 'tasks', populate: { path: 'status' } })
 
-  res.status(200).json({ board })
+  res.status(200).json(board)
 })
 
 const getBoards = asyncHandler(async (req, res) => {
-  const boards = await Board.find({})
+  const { _id: userId } = req.user
 
-  res.status(200).json({ boards })
+  const boards = await Board.find({ users: { $in: userId } }).populate({
+    path: 'users',
+    select: '-password -__v',
+  })
+
+  res.status(200).json(boards)
 })
 
 const createBoard = asyncHandler(async (req, res) => {
-  const { name } = req.body
+  const { name, desc, users } = req.body
+  const { _id: userId } = req.user
 
-  const board = await Board.create({ name })
+  if (!name) {
+    throw new Error("Enter board's name")
+  }
 
-  res.status(201).json({ board })
+  users.push(userId)
+
+  const board = await Board.create({ name, desc, users, createdBy: userId })
+
+  await Board.populate(board, { path: 'users', select: '-password -__v' })
+
+  res.status(201).json(board)
 })
 
 module.exports = {

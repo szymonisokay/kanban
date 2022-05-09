@@ -4,6 +4,7 @@ import React from 'react'
 const Menu = ({ actions, handleClose, handleOpen, open, handleItemClick }) => {
   return (
     <SpeedDial
+      title='Add'
       ariaLabel='Add new menu'
       sx={{ position: 'absolute', bottom: 20, right: 20 }}
       icon={<SpeedDialIcon />}

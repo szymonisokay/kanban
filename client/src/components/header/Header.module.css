@@ -36,7 +36,8 @@
 }
 
 .menu li a.active h6 {
-  color: var(--textActive);
+  /* color: var(--textActive); */
+  color: #1976d2;
 }
 
 .user {

@@ -22,39 +22,8 @@ const Board = ({ _id, name, desc, users, tasks, createdAt }) => {
 
   return (
     <div className={styles.board}>
-      {/* <header className={styles.board__header}>
-        <Link to={`/boards/${_id}`}>
-          <p>
-            {name}
-            <span>({tasks.length})</span>
-          </p>
-        </Link>
-        <MoreVert />
-      </header>
-      <div className={styles.board__content}>
-        {desc && <p>{desc.slice(0, 120)}...</p>}
-      </div>
-      <div className={styles.board__footer}>
-        <div className={styles.created}>
-          <AccessTimeIcon />
-          <span>{moment(createdAt).format('DD MMM YYYY')}</span>
-        </div>
-        <div className={styles.users}>
-          {usersToShow.map((user) => (
-            <img
-              className={styles.user__img}
-              key={user.id}
-              src={user.image}
-              alt={user.name}
-              title={user.name}
-            />
-          ))}
-          {usersRest.length > 0 && <span>+{usersRest.length}</span>}
-        </div>
-      </div> */}
       <Card>
         <CardHeader
-          // avatar={<Avatar>SZ</Avatar>}
           action={
             <IconButton>
               <MoreVert />
@@ -72,7 +41,24 @@ const Board = ({ _id, name, desc, users, tasks, createdAt }) => {
             {desc}
           </Typography>
         </CardContent>
-        <CardActions></CardActions>
+        <CardActions className={styles.board__footer}>
+          <div className={styles.users}>
+            {usersToShow.map((user) =>
+              user.image ? (
+                <img key={user._id} src={user.image} />
+              ) : (
+                <Avatar
+                  key={user._id}
+                  className={styles.user_avatar}
+                  title={user.name}
+                >
+                  {user.name.charAt(0).toUpperCase()}
+                </Avatar>
+              )
+            )}
+            {usersRest.length > 0 && <span>+{usersRest.length}</span>}
+          </div>
+        </CardActions>
       </Card>
     </div>
   )

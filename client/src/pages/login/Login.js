@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react'
 import styles from './Login.module.css'
 import { Button, Card, TextField, Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
-import { loginUser } from '../../features/users/userSlice'
+import { loginUser, reset } from '../../features/users/userSlice'
 import Loading from '../../components/loading/Loading'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const Login = () => {
   const [email, setEmail] = useState('')
@@ -12,18 +13,31 @@ const Login = () => {
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { status } = useSelector((state) => state.users)
+  const { isSuccess, isError, isLoading, message } = useSelector(
+    (state) => state.users
+  )
 
   const onFormSubmit = (e) => {
     e.preventDefault()
-    dispatch(loginUser({ email, password }))
+
+    const userData = {
+      email,
+      password,
+    }
+    dispatch(loginUser(userData))
   }
 
   useEffect(() => {
-    if (status === 'success') {
+    if (isSuccess) {
       navigate('/')
     }
-  }, [status])
+
+    if (isError) {
+      toast.error(message)
+    }
+
+    dispatch(reset())
+  }, [isSuccess, isError, navigate, message, dispatch])
 
   return (
     <div className={styles.container}>
@@ -44,10 +58,16 @@ const Login = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <Button type='submit' variant='contained'>
-            {status === 'loading' ? <Loading className='white' /> : 'Login'}
+            {isLoading ? <Loading className='white' /> : 'Login'}
           </Button>
         </form>
       </Card>
+      <div className={styles.meta}>
+        <Typography variant='subtitle2'>Don't have an account?</Typography>
+        <Typography variant='subtitle2'>
+          <Link to='/register'> Sign up</Link>
+        </Typography>
+      </div>
     </div>
   )
 }

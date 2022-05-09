@@ -75,7 +75,7 @@
   cursor: pointer;
 }
 
-.board__footer .users span {
+.board__footer .users .user_avatar {
   width: 25px;
   height: 25px;
   border-radius: 100%;

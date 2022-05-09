@@ -4,17 +4,16 @@ import styles from './Boards.module.css'
 import BoardsList from '../../components/board/Boards'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getBoards } from '../../features/boards/boardSlice'
+import { getBoards, reset } from '../../features/boards/boardSlice'
 import Loading from '../../components/loading/Loading'
 import { DashboardCustomize } from '@mui/icons-material'
 import Menu from '../../components/menu/Menu'
-import ModalBox from '../../components/modal/ModalBox'
 
 const actions = [{ icon: <DashboardCustomize />, name: 'Board' }]
 
 const Boards = () => {
   const dispatch = useDispatch()
-  const boards = useSelector((state) => state.board)
+  const { boards, isLoading, isSuccess } = useSelector((state) => state.board)
 
   const [open, setOpen] = useState(false)
   const [openModal, setOpenModal] = useState(false)
@@ -26,15 +25,13 @@ const Boards = () => {
 
   useEffect(() => {
     dispatch(getBoards())
-  }, [dispatch])
+
+    // return () => dispatch(reset())
+  }, [dispatch, isSuccess])
 
   return (
     <div className={styles.boards}>
-      {boards.status === 'loading' ? (
-        <Loading />
-      ) : (
-        <BoardsList boards={boards.value} />
-      )}
+      {isLoading ? <Loading /> : <BoardsList boards={boards} />}
       <Menu
         actions={actions}
         open={open}
@@ -42,13 +39,6 @@ const Boards = () => {
         handleOpen={handleOpen}
         handleItemClick={handleItemClick}
       />
-      {openModal && (
-        <ModalBox
-          isOpen={openModal}
-          handleClose={handleModalClose}
-          title='board'
-        />
-      )}
     </div>
   )
 }

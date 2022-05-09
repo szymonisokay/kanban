@@ -55,15 +55,15 @@ const Header = () => {
             </li>
             <li>
               <NavLink
-                to='/boards'
+                to='/add-board'
                 className={({ isActive }) =>
                   isActive ? styles.active : undefined
                 }
               >
-                <Typography variant='subtitle1'>Boards</Typography>
+                <Typography variant='subtitle1'>Add board</Typography>
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 to='/teams'
                 className={({ isActive }) =>
@@ -72,7 +72,7 @@ const Header = () => {
               >
                 <Typography variant='subtitle1'>Teams</Typography>
               </NavLink>
-            </li>
+            </li> */}
           </ul>
         </nav>
       </div>

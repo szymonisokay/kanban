@@ -4,11 +4,12 @@ const {
   getSingleBoard,
   createBoard,
 } = require('../controllers/BoardController')
+const { authorization } = require('../middleware/AuthMiddleware')
 
 const router = express.Router()
 
-router.get('/', getBoards)
-router.get('/:id', getSingleBoard)
-router.post('/', createBoard)
+router.get('/', authorization, getBoards)
+router.get('/:id', authorization, getSingleBoard)
+router.post('/', authorization, createBoard)
 
 module.exports = router

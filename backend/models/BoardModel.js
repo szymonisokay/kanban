@@ -25,6 +25,10 @@ const BoardSchema = mongoose.Schema(
         default: [],
       },
     ],
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
   },
   { timestamps: true }
 )

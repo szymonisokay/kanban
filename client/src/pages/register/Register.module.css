@@ -16,6 +16,11 @@ form {
   gap: 20px;
 }
 
+.form_group {
+  display: flex;
+  gap: 20px;
+}
+
 .meta {
   margin-top: 5px;
   display: flex;
