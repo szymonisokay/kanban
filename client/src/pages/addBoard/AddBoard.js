@@ -1,13 +1,144 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './AddBoard.module.css'
 
-import { Typography } from '@mui/material'
+import {
+  Typography,
+  TextField,
+  Select,
+  MenuItem,
+  Box,
+  Chip,
+  InputLabel,
+  OutlinedInput,
+  FormControl,
+  Button,
+  Card,
+  CircularProgress,
+} from '@mui/material'
+
+import axios from 'axios'
+import { addBoard, reset } from '../../features/boards/boardSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 const AddBoard = () => {
+  const [users, setUsers] = useState([])
+  const [selectedUsers, setSelectedUsers] = useState([])
+  const [name, setName] = useState('')
+  const [desc, setDesc] = useState('')
+
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+  const { boards, isError, message, isLoading, isSuccess } = useSelector(
+    (state) => state.board
+  )
+
+  const onUserChange = (event) => {
+    const {
+      target: { value },
+    } = event
+
+    setSelectedUsers(typeof value === 'string' ? value.split(',') : value)
+  }
+
+  const onSubmit = (event) => {
+    event.preventDefault()
+
+    const boardData = {
+      name,
+      desc,
+      users: selectedUsers,
+    }
+
+    dispatch(addBoard(boardData))
+    toast.success('Board created successfully')
+    setTimeout(() => navigate(`/boards/${boards[0]?._id}`), 2000)
+
+    setName('')
+    setDesc('')
+    setSelectedUsers([])
+  }
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/users/')
+
+      setUsers(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+
+    return () => dispatch(reset())
+  }, [dispatch, isError, message, navigate, isSuccess])
+
   return (
     <div className={styles.container}>
-      <Typography variant='h6'>Add new board</Typography>
-      <section className={styles.add_form}></section>
+      <Card className={styles.card}>
+        <Typography variant='h6'>Create new board</Typography>
+        <form className={styles.form} onSubmit={onSubmit}>
+          <TextField
+            label='Name'
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+          <FormControl>
+            <InputLabel id='select-user'>Assign users</InputLabel>
+            <Select
+              sx={{ width: '100%' }}
+              label='users'
+              labelId='select-user'
+              multiple
+              displayEmpty
+              input={<OutlinedInput label='Assign users' />}
+              value={selectedUsers}
+              onChange={onUserChange}
+              renderValue={(selected) => (
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip
+                      key={value}
+                      label={users
+                        .filter((user) => user._id === value)
+                        .map((user) => user.name)}
+                    />
+                  ))}
+                </Box>
+              )}
+            >
+              {users?.map((user) => (
+                <MenuItem key={user._id} value={user._id}>
+                  {user.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+
+          <TextField
+            className={styles.textarea}
+            rows={4}
+            multiline
+            label='Description'
+            value={desc}
+            onChange={(e) => setDesc(e.target.value)}
+          />
+
+          <Button type='submit' color='primary' variant='contained'>
+            {isLoading ? <CircularProgress /> : 'Create'}
+          </Button>
+        </form>
+      </Card>
     </div>
   )
 }

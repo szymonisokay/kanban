@@ -9,7 +9,7 @@
   padding: 20px 30px;
 }
 
-form {
+.form {
   padding-top: 20px;
   display: flex;
   flex-direction: column;

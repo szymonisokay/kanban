@@ -27,7 +27,15 @@ const createBoard = asyncHandler(async (req, res) => {
   const { _id: userId } = req.user
 
   if (!name) {
+    res.status(400)
     throw new Error("Enter board's name")
+  }
+
+  const boardExists = await Board.findOne({ name })
+
+  if (boardExists) {
+    res.status(400)
+    throw new Error('Board with this name already exists')
   }
 
   users.push(userId)

@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import boardService from './boardService'
-import axios from 'axios'
 
 const initialState = {
   boards: [],
@@ -30,10 +29,20 @@ export const getBoards = createAsyncThunk(
 
 export const getSingleBoard = createAsyncThunk(
   'board/getSingleBoard',
-  async ({ id }) =>
-    await axios
-      .get(`http://localhost:5000/api/boards/${id}`)
-      .then((res) => res.data.board)
+  async (boardID, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().users.user.token
+      return await boardService.getSingleBoard(boardID, token)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
 )
 
 export const addBoard = createAsyncThunk(
@@ -88,23 +97,38 @@ export const boardSlice = createSlice({
         state.isLoading = true
       })
       .addCase(addBoard.fulfilled, (state, action) => {
+        const filteredBoard = state.boards.filter(
+          (board) => board._id === action.payload._id
+        )
+        console.log(filteredBoard)
         state.isLoading = false
         state.isSuccess = true
-        state.boards = [...state.boards, action.payload]
+        state.boards =
+          filteredBoard.length === 1 ? filteredBoard : Array(action.payload)
       })
       .addCase(addBoard.rejected, (state, action) => {
         state.isError = true
         state.isLoading = false
         state.message = action.payload
       })
-    // [getSingleBoard.pending]: (state) => {
-    //   state.status = 'loading'
-    // },
-    // [getSingleBoard.fulfilled]: (state, action) => {
-    //   state.value = []
-    //   state.value = [...state.value, action.payload]
-    //   state.status = 'success'
-    // },
+      .addCase(getSingleBoard.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getSingleBoard.fulfilled, (state, action) => {
+        const filteredBoard = state.boards.filter(
+          (board) => board._id === action.payload._id
+        )
+
+        state.isLoading = false
+        state.isSuccess = true
+        state.boards =
+          filteredBoard.length === 1 ? filteredBoard : Array(action.payload)
+      })
+      .addCase(getSingleBoard.rejected, (state, action) => {
+        state.isError = true
+        state.isLoading = false
+        state.message = action.payload
+      })
   },
 })
 

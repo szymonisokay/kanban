@@ -51,7 +51,7 @@ const Register = () => {
     <div className={styles.container}>
       <Card className={styles.card}>
         <Typography variant='h6'>Create new account</Typography>
-        <form onSubmit={onFormSubmit}>
+        <form className={styles.form} onSubmit={onFormSubmit}>
           <div className={styles.form_group}>
             <TextField
               variant='outlined'

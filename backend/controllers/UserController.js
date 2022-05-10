@@ -75,7 +75,19 @@ const loginUser = asyncHandler(async (req, res) => {
   res.status(200).json({ user: loggedUser })
 })
 
+const getAllUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({})
+
+  if (!users) {
+    res.status(404)
+    throw new Error('No users')
+  }
+
+  res.status(200).json(users)
+})
+
 module.exports = {
   createUser,
   loginUser,
+  getAllUsers,
 }

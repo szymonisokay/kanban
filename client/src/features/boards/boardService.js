@@ -14,6 +14,18 @@ const getBoards = async (token) => {
   return response.data
 }
 
+const getSingleBoard = async (id, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  }
+
+  const response = await axios.get(API_URL + id, config)
+
+  return response.data
+}
+
 const createBoard = async (boardData, token) => {
   const config = {
     headers: {
@@ -29,6 +41,7 @@ const createBoard = async (boardData, token) => {
 const boardService = {
   getBoards,
   createBoard,
+  getSingleBoard,
 }
 
 export default boardService

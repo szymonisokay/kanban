@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styles from './Dashboard.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -8,7 +8,7 @@ import Loading from '../loading/Loading'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBoards, reset } from '../../features/boards/boardSlice'
 
-import { DashboardCustomize, GroupAdd } from '@mui/icons-material'
+import { DashboardCustomize } from '@mui/icons-material'
 import { Typography } from '@mui/material'
 import Menu from '../menu/Menu'
 
@@ -31,7 +31,9 @@ const Dashboard = () => {
   useEffect(() => {
     dispatch(getBoards())
 
-    return () => dispatch(reset())
+    return () => {
+      dispatch(reset())
+    }
   }, [dispatch])
 
   return (

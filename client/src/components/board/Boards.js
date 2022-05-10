@@ -7,7 +7,7 @@ const Boards = ({ boards }) => {
     <>
       <div className={styles.boards__content}>
         {boards ? (
-          boards.map((board) => <Board key={board._id} {...board} />)
+          boards?.map((board) => <Board key={board._id} {...board} />)
         ) : (
           <p>No boards</p>
         )}

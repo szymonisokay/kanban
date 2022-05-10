@@ -43,7 +43,7 @@ const Login = () => {
     <div className={styles.container}>
       <Card className={styles.card}>
         <Typography variant='h6'>Login into your account</Typography>
-        <form onSubmit={onFormSubmit}>
+        <form className={styles.form} onSubmit={onFormSubmit}>
           <TextField
             variant='outlined'
             label='Email'

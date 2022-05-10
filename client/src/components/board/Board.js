@@ -17,8 +17,8 @@ import {
 import moment from 'moment'
 
 const Board = ({ _id, name, desc, users, tasks, createdAt }) => {
-  const usersToShow = users.slice(0, 2)
-  const usersRest = users.slice(2)
+  const usersToShow = users?.slice(0, 2)
+  const usersRest = users?.slice(2)
 
   return (
     <div className={styles.board}>
@@ -29,7 +29,11 @@ const Board = ({ _id, name, desc, users, tasks, createdAt }) => {
               <MoreVert />
             </IconButton>
           }
-          title={<Typography variant='body1'>{name}</Typography>}
+          title={
+            <Typography variant='body1'>
+              <Link to={`/boards/${_id}`}>{name}</Link>
+            </Typography>
+          }
           subheader={
             <Typography variant='subtitle2' color='gray'>
               {moment(createdAt).format('DD MMM YYYY')}
@@ -52,7 +56,7 @@ const Board = ({ _id, name, desc, users, tasks, createdAt }) => {
                   className={styles.user_avatar}
                   title={user.name}
                 >
-                  {user.name.charAt(0).toUpperCase()}
+                  {user?.name.charAt(0).toUpperCase()}
                 </Avatar>
               )
             )}
