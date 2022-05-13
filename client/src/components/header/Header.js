@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import styles from './Header.module.css'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
@@ -27,6 +27,7 @@ const Header = () => {
   }
 
   const logout = () => {
+    setIsOpen(!isOpen)
     dispatch(logoutUser())
     navigate('/login')
   }

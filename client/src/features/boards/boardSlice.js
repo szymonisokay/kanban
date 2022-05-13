@@ -97,14 +97,11 @@ export const boardSlice = createSlice({
         state.isLoading = true
       })
       .addCase(addBoard.fulfilled, (state, action) => {
-        const filteredBoard = state.boards.filter(
-          (board) => board._id === action.payload._id
-        )
-        console.log(filteredBoard)
+        console.log(action.payload)
         state.isLoading = false
         state.isSuccess = true
-        state.boards =
-          filteredBoard.length === 1 ? filteredBoard : Array(action.payload)
+        state.boards = []
+        state.boards = action.payload
       })
       .addCase(addBoard.rejected, (state, action) => {
         state.isError = true
@@ -115,14 +112,9 @@ export const boardSlice = createSlice({
         state.isLoading = true
       })
       .addCase(getSingleBoard.fulfilled, (state, action) => {
-        const filteredBoard = state.boards.filter(
-          (board) => board._id === action.payload._id
-        )
-
         state.isLoading = false
         state.isSuccess = true
-        state.boards =
-          filteredBoard.length === 1 ? filteredBoard : Array(action.payload)
+        state.boards = action.payload
       })
       .addCase(getSingleBoard.rejected, (state, action) => {
         state.isError = true

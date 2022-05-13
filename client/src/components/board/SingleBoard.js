@@ -25,7 +25,7 @@ const SingleBoard = () => {
         <Loading />
       ) : (
         <div className={styles.board_info}>
-          <Typography>{boards[0].name}</Typography>
+          <Typography>{boards.name}</Typography>
         </div>
       )}
     </section>

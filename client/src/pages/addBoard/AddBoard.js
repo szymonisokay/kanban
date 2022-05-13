@@ -27,6 +27,7 @@ const AddBoard = () => {
   const [selectedUsers, setSelectedUsers] = useState([])
   const [name, setName] = useState('')
   const [desc, setDesc] = useState('')
+  const [valueSent, setValueSent] = useState(false)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -52,12 +53,13 @@ const AddBoard = () => {
     }
 
     dispatch(addBoard(boardData))
-    toast.success('Board created successfully')
-    setTimeout(() => navigate(`/boards/${boards[0]?._id}`), 2000)
+
+    if (isError) return
 
     setName('')
     setDesc('')
     setSelectedUsers([])
+    setValueSent(true)
   }
 
   const fetchUsers = async () => {
@@ -75,12 +77,24 @@ const AddBoard = () => {
   }, [])
 
   useEffect(() => {
+    if (isSuccess && valueSent) {
+      toast.success('Board created successfully')
+      setTimeout(() => {
+        navigate(`/boards/${boards._id}`)
+      }, 2000)
+    }
+  }, [boards, isSuccess, valueSent, navigate])
+
+  useEffect(() => {
     if (isError) {
       toast.error(message)
     }
 
-    return () => dispatch(reset())
-  }, [dispatch, isError, message, navigate, isSuccess])
+    return () => {
+      dispatch(reset())
+      setValueSent(false)
+    }
+  }, [dispatch, isError, message])
 
   return (
     <div className={styles.container}>
