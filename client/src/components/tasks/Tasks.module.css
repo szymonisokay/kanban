@@ -1,0 +1,38 @@
+.container {
+  margin-top: 50px;
+}
+
+.grid {
+  width: 100%;
+  margin: 0 auto;
+  min-height: 400px;
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.grid_item {
+  background: #ededed;
+  border-radius: 6px;
+  padding: 10px 20px;
+  position: relative;
+}
+
+.add_btn {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  width: calc(100% - 40px);
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #fff;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}

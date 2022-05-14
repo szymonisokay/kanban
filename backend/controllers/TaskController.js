@@ -1,6 +1,7 @@
 const asyncHandler = require('express-async-handler')
 const Task = require('../models/TaskModel')
 const Board = require('../models/BoardModel')
+const Status = require('../models/StatusModel')
 
 const getTask = asyncHandler(async (req, res) => {
   const { id } = req.params
@@ -34,8 +35,15 @@ const createTask = asyncHandler(async (req, res) => {
   res.status(201).json({ task })
 })
 
+const getAllStatuses = asyncHandler(async (req, res) => {
+  const statuses = await Status.find({})
+
+  res.status(200).json(statuses)
+})
+
 module.exports = {
   getTask,
   getTasksFromBoard,
   createTask,
+  getAllStatuses,
 }

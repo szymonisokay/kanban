@@ -1,3 +1,8 @@
 .single_board {
-  padding: 100px 20px 0;
+  padding: 100px 20px 140px;
+}
+
+.desc {
+  padding-top: 10px;
+  color: #6d6d6d;
 }

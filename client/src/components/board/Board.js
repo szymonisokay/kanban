@@ -2,7 +2,7 @@ import React from 'react'
 import styles from './Board.module.css'
 import { Link } from 'react-router-dom'
 
-import { MoreVert, AccessTime } from '@mui/icons-material'
+import { MoreVert } from '@mui/icons-material'
 
 import {
   Avatar,
@@ -40,7 +40,7 @@ const Board = ({ _id, name, desc, users, tasks, createdAt }) => {
             </Typography>
           }
         />
-        <CardContent>
+        <CardContent style={{ padding: '0 20px' }}>
           <Typography variant='body2' color='gray'>
             {desc}
           </Typography>
@@ -49,7 +49,7 @@ const Board = ({ _id, name, desc, users, tasks, createdAt }) => {
           <div className={styles.users}>
             {usersToShow.map((user) =>
               user.image ? (
-                <img key={user._id} src={user.image} />
+                <img key={user._id} src={user.image} alt={user.name} />
               ) : (
                 <Avatar
                   key={user._id}

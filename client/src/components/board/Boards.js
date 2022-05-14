@@ -3,8 +3,6 @@ import styles from './Boards.module.css'
 import Board from './Board'
 
 const Boards = ({ boards }) => {
-  console.log(boards)
-
   return (
     <>
       <div className={styles.boards__content}>

@@ -11,6 +11,7 @@ import ProtectedRoute from './utils/ProtectedRoute'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import AddBoard from './pages/addBoard/AddBoard'
+import Footer from './components/footer/Footer'
 
 function App() {
   return (
@@ -61,6 +62,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
         </Routes>
+        <Footer />
       </Router>
       <ToastContainer
         position='bottom-right'

@@ -43,9 +43,9 @@
 }
 
 .board__footer {
-  padding: 20px;
+  padding: 20px !important;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -75,7 +75,7 @@
   cursor: pointer;
 }
 
-.board__footer .users .user_avatar {
+.board__footer .users :is(.user_avatar, span) {
   width: 25px;
   height: 25px;
   border-radius: 100%;

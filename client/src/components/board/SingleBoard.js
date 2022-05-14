@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getSingleBoard, reset } from '../../features/boards/boardSlice'
 import { Typography } from '@mui/material'
 import Loading from '../loading/Loading'
+import Tasks from '../tasks/Tasks'
 
 const SingleBoard = () => {
   const params = useParams()
@@ -24,9 +25,17 @@ const SingleBoard = () => {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className={styles.board_info}>
-          <Typography>{boards.name}</Typography>
-        </div>
+        <>
+          <div className={styles.board_info}>
+            <Typography className={styles.title} variant='h5'>
+              {boards.name}
+            </Typography>
+            <Typography className={styles.desc} variant='body2'>
+              {boards?.desc}
+            </Typography>
+          </div>
+          <Tasks tasks={boards?.tasks} />
+        </>
       )}
     </section>
   )

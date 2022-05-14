@@ -38,9 +38,20 @@ const createBoard = asyncHandler(async (req, res) => {
     throw new Error('Board with this name already exists')
   }
 
-  users.push(userId)
+  users.push(userId.toString())
 
-  const board = await Board.create({ name, desc, users, createdBy: userId })
+  console.log(users)
+
+  const uniqueUsers = [...new Set(users)]
+
+  console.log(uniqueUsers)
+
+  const board = await Board.create({
+    name,
+    desc,
+    users: uniqueUsers,
+    createdBy: userId,
+  })
 
   await Board.populate(board, { path: 'users', select: '-password -__v' })
 
