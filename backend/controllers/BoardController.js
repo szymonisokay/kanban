@@ -7,6 +7,7 @@ const getSingleBoard = asyncHandler(async (req, res) => {
   const board = await Board.findById(id)
 
   await Board.populate(board, { path: 'tasks', populate: { path: 'status' } })
+  await Board.populate(board, { path: 'users', select: '-password -__v' })
 
   res.status(200).json(board)
 })

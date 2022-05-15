@@ -110,12 +110,13 @@ const AddBoard = () => {
           <FormControl>
             <InputLabel id='select-user'>Assign users</InputLabel>
             <Select
+              size='small'
               sx={{ width: '100%' }}
               label='users'
               labelId='select-user'
               multiple
               displayEmpty
-              input={<OutlinedInput label='Assign users' />}
+              input={<OutlinedInput label='Assign users' size='small' />}
               value={selectedUsers}
               onChange={onUserChange}
               renderValue={(selected) => (

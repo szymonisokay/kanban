@@ -31,11 +31,11 @@ const TaskSchema = mongoose.Schema(
   { timestamps: true }
 )
 
-TaskSchema.pre('save', async function (next) {
-  const type = await Status.find({ type: 'To Do' })
-  this.status = type[0]._id
+// TaskSchema.pre('save', async function (next) {
+//   const type = await Status.find({ type: 'To Do' })
+//   this.status = type[0]._id
 
-  next()
-})
+//   next()
+// })
 
 module.exports = mongoose.model('Task', TaskSchema)
