@@ -11,13 +11,11 @@ const TaskSchema = mongoose.Schema(
       type: String,
       default: 'Short description about the task',
     },
-    users: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        default: [],
-      },
-    ],
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+
     status: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Status',

@@ -23,10 +23,11 @@ const getTasksFromBoard = asyncHandler(async (req, res) => {
 })
 
 const createTask = asyncHandler(async (req, res) => {
-  const { name, boardId } = req.body
-  const task = await Task.create({ name, boardId })
+  const { boardId } = req.body
+  const task = await Task.create(req.body)
 
   await Task.populate(task, { path: 'status' })
+  await Task.populate(task, { path: 'user', select: '-password -__v' })
 
   const board = await Board.findById(boardId)
   board.tasks.push(task._id)

@@ -10,6 +10,7 @@ import {
   MenuItem,
   ListItemIcon,
   ListItemText,
+  Button,
 } from '@mui/material'
 import { ExpandMore, AccountCircleOutlined, Logout } from '@mui/icons-material'
 
@@ -29,6 +30,10 @@ const Header = () => {
   const logout = () => {
     setIsOpen(!isOpen)
     dispatch(logoutUser())
+    navigate('/login')
+  }
+
+  const onLogin = () => {
     navigate('/login')
   }
 
@@ -122,7 +127,9 @@ const Header = () => {
             </Box>
           </div>
         ) : (
-          <Link to='/login'>Login</Link>
+          <Button variant='contained' color='primary' onClick={onLogin}>
+            Login
+          </Button>
         )}
       </div>
     </header>

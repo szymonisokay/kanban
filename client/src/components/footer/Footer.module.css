@@ -1,13 +1,15 @@
 .footer {
-  /* position: fixed;
+  position: absolute;
   bottom: 0;
-  left: 0; */
+  left: 0;
   width: 100%;
-  background: #d6d6d6;
   padding: 20px;
+  background: #d6d6d6;
 }
 
 .container {
   display: flex;
   justify-content: space-between;
+  max-width: 1400px;
+  margin: auto;
 }

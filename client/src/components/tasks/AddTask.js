@@ -7,23 +7,41 @@ import {
   FormControl,
   InputLabel,
   Select,
-  OutlinedInput,
-  Box,
-  Chip,
   MenuItem,
   Button,
 } from '@mui/material'
+import TasksService from '../../services/TasksService'
 
 const AddTask = ({ status, onClose }) => {
   const { boards: board } = useSelector((state) => state.board)
-  const [selectedUsers, setSelectedUsers] = useState([])
+  const { user } = useSelector((state) => state.users)
+  const [name, setName] = useState('')
+  const [desc, setDesc] = useState('')
+  const [selectedUser, setSelectedUser] = useState('')
 
   const onUserChange = (event) => {
     const {
       target: { value },
     } = event
+    setSelectedUser(value)
+  }
 
-    setSelectedUsers(typeof value === 'string' ? value.split(',') : value)
+  const handleSubmit = (e) => {
+    e.preventDefault()
+
+    const taskData = {
+      name,
+      desc,
+      user: selectedUser,
+      status,
+      boardId: board._id,
+    }
+
+    const task = TasksService.createTask(taskData, user.token)
+    console.log(task)
+    setName('')
+    setDesc('')
+    setSelectedUser('')
   }
 
   console.log(board)
@@ -33,30 +51,22 @@ const AddTask = ({ status, onClose }) => {
       <div className={styles.modal}>
         <Typography variant='h6'>Create new task</Typography>
         <div className={styles.modal_content}>
-          <form className={styles.form}>
-            <TextField variant='outlined' label='Title' />
+          <form className={styles.form} onSubmit={handleSubmit}>
+            <TextField
+              variant='outlined'
+              label='Title'
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
             <FormControl>
               <InputLabel id='select-user'>Assign user</InputLabel>
               <Select
                 sx={{ width: '100%' }}
-                label='users'
                 labelId='select-user'
                 displayEmpty
-                input={<OutlinedInput label='Assign user' />}
-                value={selectedUsers}
+                label='Assign user'
+                value={selectedUser}
                 onChange={onUserChange}
-                renderValue={(selected) => (
-                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                    {selected.map((value) => (
-                      <Chip
-                        key={value}
-                        label={board.users
-                          ?.filter((user) => user._id === value)
-                          .map((user) => user.name)}
-                      />
-                    ))}
-                  </Box>
-                )}
               >
                 {board.users?.map((user) => (
                   <MenuItem key={user._id} value={user._id}>
@@ -65,12 +75,25 @@ const AddTask = ({ status, onClose }) => {
                 ))}
               </Select>
             </FormControl>
-            <TextField multiline rows={4} label='Description' />
+            <TextField
+              multiline
+              rows={4}
+              label='Description'
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
+            />
             <div className={styles.actions}>
-              <Button variant='text' sx={{ color: 'black' }} onClick={onClose}>
+              <Button
+                variant='text'
+                sx={{ color: 'black' }}
+                onClick={onClose}
+                type='button'
+              >
                 Close
               </Button>
-              <Button variant='contained'>Create</Button>
+              <Button variant='contained' type='submit'>
+                Create
+              </Button>
             </div>
           </form>
         </div>

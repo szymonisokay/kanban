@@ -4,11 +4,14 @@ import axios from 'axios'
 import { Grid } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import AddTask from './AddTask'
+import Task from './Task'
 
-const Tasks = ({ tasks }) => {
+const Tasks = ({ tasks: localTasks }) => {
   const [statuses, setStatuses] = useState([])
   const [addTask, setAddTask] = useState(false)
   const [selectedStatus, setSelectedStatus] = useState('')
+  const [tasks, setTasks] = useState(localTasks)
+
   const source = useRef(axios.CancelToken.source())
 
   const fetchStatuses = async () => {
@@ -53,12 +56,21 @@ const Tasks = ({ tasks }) => {
           {statuses?.map((status) => (
             <Grid item key={status._id} xs={12} className={styles.grid_item}>
               {status.type}
-              <button
-                className={styles.add_btn}
-                onClick={() => onAddTask(status._id)}
-              >
-                <Add />
-              </button>
+              <div className={styles.tasks_content}>
+                {tasks?.map((task) => {
+                  if (task.status._id === status._id) {
+                    return <Task key={task._id} task={task} />
+                  }
+                })}
+              </div>
+              {status.type === 'To Do' && (
+                <button
+                  className={styles.add_btn}
+                  onClick={() => onAddTask(status._id)}
+                >
+                  <Add />
+                </button>
+              )}
             </Grid>
           ))}
         </Grid>
