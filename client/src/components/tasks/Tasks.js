@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import styles from './Tasks.module.css'
 import axios from 'axios'
-import { Grid } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import AddTask from './AddTask'
 import Task from './Task'
@@ -55,14 +55,7 @@ const Tasks = ({ tasks: localTasks }) => {
         <Grid container spacing={0} className={styles.grid}>
           {statuses?.map((status) => (
             <Grid item key={status._id} xs={12} className={styles.grid_item}>
-              {status.type}
-              <div className={styles.tasks_content}>
-                {tasks?.map((task) => {
-                  if (task.status._id === status._id) {
-                    return <Task key={task._id} task={task} />
-                  }
-                })}
-              </div>
+              <Typography variant='h6'>{status.type}</Typography>
               {status.type === 'To Do' && (
                 <button
                   className={styles.add_btn}
@@ -71,11 +64,26 @@ const Tasks = ({ tasks: localTasks }) => {
                   <Add />
                 </button>
               )}
+              <div className={styles.tasks_content}>
+                {tasks?.map((task) => {
+                  return (
+                    task.status._id === status._id && (
+                      <Task key={task._id} task={task} />
+                    )
+                  )
+                })}
+              </div>
             </Grid>
           ))}
         </Grid>
       </div>
-      {addTask && <AddTask status={selectedStatus} onClose={onClose} />}
+      {addTask && (
+        <AddTask
+          status={selectedStatus}
+          onClose={onClose}
+          setTasks={setTasks}
+        />
+      )}
     </>
   )
 }

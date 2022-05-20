@@ -20,8 +20,6 @@ const SingleBoard = () => {
     }
   }, [dispatch, params])
 
-  console.log(boards)
-
   return (
     <section className={styles.single_board}>
       {isLoading ? (

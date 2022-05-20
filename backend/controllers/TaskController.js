@@ -24,16 +24,17 @@ const getTasksFromBoard = asyncHandler(async (req, res) => {
 
 const createTask = asyncHandler(async (req, res) => {
   const { boardId } = req.body
-  const task = await Task.create(req.body)
+  const task = await Task.create({ ...req.body, createdBy: req.user._id })
 
   await Task.populate(task, { path: 'status' })
   await Task.populate(task, { path: 'user', select: '-password -__v' })
+  // await Task.populate(task, { path: 'createdBy', select: '-password -__v' })
 
   const board = await Board.findById(boardId)
   board.tasks.push(task._id)
   board.save()
 
-  res.status(201).json({ task })
+  res.status(201).json(task)
 })
 
 const getAllStatuses = asyncHandler(async (req, res) => {

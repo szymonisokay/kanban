@@ -1,0 +1,26 @@
+.task_container {
+  background: #fff;
+  padding: 10px;
+  border-radius: 6px;
+}
+
+:is(.task_header, .task_footer) {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task_footer {
+  margin-top: 15px;
+}
+
+.avatar {
+  width: 25px !important;
+  height: 25px !important;
+  font-size: 12px !important;
+  cursor: pointer;
+}
+
+.icon {
+  cursor: pointer;
+}

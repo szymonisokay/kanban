@@ -12,9 +12,10 @@ import {
 } from '@mui/material'
 import TasksService from '../../services/TasksService'
 
-const AddTask = ({ status, onClose }) => {
+const AddTask = ({ status, onClose, setTasks }) => {
   const { boards: board } = useSelector((state) => state.board)
   const { user } = useSelector((state) => state.users)
+
   const [name, setName] = useState('')
   const [desc, setDesc] = useState('')
   const [selectedUser, setSelectedUser] = useState('')
@@ -26,7 +27,7 @@ const AddTask = ({ status, onClose }) => {
     setSelectedUser(value)
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     const taskData = {
@@ -37,14 +38,15 @@ const AddTask = ({ status, onClose }) => {
       boardId: board._id,
     }
 
-    const task = TasksService.createTask(taskData, user.token)
-    console.log(task)
+    const task = await TasksService.createTask(taskData, user.token)
+
+    setTasks((prev) => [...prev, task])
+
     setName('')
     setDesc('')
     setSelectedUser('')
   }
 
-  console.log(board)
   return (
     <>
       <div className={styles.overlay} onClick={onClose} />
@@ -58,10 +60,9 @@ const AddTask = ({ status, onClose }) => {
               value={name}
               onChange={(e) => setName(e.target.value)}
             />
-            <FormControl>
+            <FormControl fullWidth>
               <InputLabel id='select-user'>Assign user</InputLabel>
               <Select
-                sx={{ width: '100%' }}
                 labelId='select-user'
                 displayEmpty
                 label='Assign user'
