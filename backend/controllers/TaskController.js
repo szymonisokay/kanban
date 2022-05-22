@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler')
 const Task = require('../models/TaskModel')
 const Board = require('../models/BoardModel')
 const Status = require('../models/StatusModel')
+const TaskModel = require('../models/TaskModel')
 
 const getTask = asyncHandler(async (req, res) => {
   const { id } = req.params
@@ -28,7 +29,6 @@ const createTask = asyncHandler(async (req, res) => {
 
   await Task.populate(task, { path: 'status' })
   await Task.populate(task, { path: 'user', select: '-password -__v' })
-  // await Task.populate(task, { path: 'createdBy', select: '-password -__v' })
 
   const board = await Board.findById(boardId)
   board.tasks.push(task._id)
@@ -53,6 +53,19 @@ const updateTask = asyncHandler(async (req, res) => {
   res.status(201).json(task)
 })
 
+const deleteTask = asyncHandler(async (req, res) => {
+  const { id: taskId } = req.params
+
+  const task = await TaskModel.findByIdAndDelete(taskId)
+
+  if (!task) {
+    res.status(400)
+    throw new Error('Task not found')
+  }
+
+  res.status(200).json('Task deleted')
+})
+
 const getAllStatuses = asyncHandler(async (req, res) => {
   const statuses = await Status.find({})
 
@@ -65,4 +78,5 @@ module.exports = {
   createTask,
   getAllStatuses,
   updateTask,
+  deleteTask,
 }

@@ -1,34 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import styles from './Tasks.module.css'
-import axios from 'axios'
 import { Grid, Typography } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import AddTask from './AddTask'
 import Task from './Task'
-import { useSelector } from 'react-redux'
 
-const Tasks = ({ tasks: localTasks }) => {
-  const [statuses, setStatuses] = useState([])
+const Tasks = ({ tasks: localTasks, statuses }) => {
   const [addTask, setAddTask] = useState(false)
   const [selectedStatus, setSelectedStatus] = useState('')
   const [tasks, setTasks] = useState(localTasks)
-
-  const source = useRef(axios.CancelToken.source())
-
-  const fetchStatuses = async () => {
-    try {
-      const response = await axios.get(
-        'http://localhost:5000/api/tasks/status/',
-        {
-          cancelToken: source.current.token,
-        }
-      )
-
-      setStatuses(response.data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   const onAddTask = (status) => {
     setAddTask(true)
@@ -38,16 +18,6 @@ const Tasks = ({ tasks: localTasks }) => {
   const onClose = () => {
     setAddTask(false)
   }
-
-  useEffect(() => {
-    fetchStatuses()
-
-    const cancelToken = source.current
-
-    return () => {
-      cancelToken.cancel('Canceled')
-    }
-  }, [source])
 
   return (
     <>

@@ -5,6 +5,7 @@ const {
   createTask,
   getAllStatuses,
   updateTask,
+  deleteTask,
 } = require('../controllers/TaskController')
 const { authorization } = require('../middleware/AuthMiddleware')
 
@@ -15,5 +16,6 @@ router.get('/', authorization, getTasksFromBoard)
 router.get('/:id', authorization, getTask)
 router.post('/', authorization, createTask)
 router.put('/:id', authorization, updateTask)
+router.delete('/:id', authorization, deleteTask)
 
 module.exports = router

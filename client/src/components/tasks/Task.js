@@ -24,6 +24,7 @@ import moment from 'moment'
 import { useSelector } from 'react-redux'
 import { Box } from '@mui/system'
 import TasksService from '../../services/TasksService'
+import ConfirmationModal from '../modals/ConfirmationModal'
 
 const Task = ({ task, statuses, updateTask }) => {
   const { user } = useSelector((state) => state.users)
@@ -34,6 +35,8 @@ const Task = ({ task, statuses, updateTask }) => {
   const [anchorEl, setAnchorEl] = useState(null)
   const [isUserMenuOpened, setIsUserMenuOpened] = useState(false)
   const [isStatusMenuOpened, setIsStatusMenuOpened] = useState(false)
+  const [isModal, setIsModal] = useState(false)
+  const [deletedTask, setDeletedTask] = useState(null)
 
   const open = Boolean(anchorEl)
 
@@ -77,6 +80,24 @@ const Task = ({ task, statuses, updateTask }) => {
     )
   }
 
+  const onModalClick = (taskId) => {
+    setDeletedTask(taskId)
+    setIsModal(true)
+  }
+
+  const onModalClose = () => {
+    setIsModal(false)
+  }
+
+  const deleteTask = async () => {
+    setAnchorEl(null)
+    setIsModal(false)
+
+    await TasksService.deleteTask(deletedTask, user.token).then(() =>
+      updateTask((prev) => prev.filter((task) => task._id !== deletedTask))
+    )
+  }
+
   return (
     <>
       <div className={styles.task_container}>
@@ -109,6 +130,8 @@ const Task = ({ task, statuses, updateTask }) => {
           )}
         </div>
       </div>
+
+      {/* Menu Content */}
       <Menu
         anchorEl={anchorEl}
         id='task-menu'
@@ -153,7 +176,7 @@ const Task = ({ task, statuses, updateTask }) => {
               <ListItemText>Edit task</ListItemText>
             </MenuItem>
             {task.createdBy === user.id && (
-              <MenuItem>
+              <MenuItem onClick={() => onModalClick(task._id)}>
                 <ListItemIcon>
                   <DeleteOutline fontSize='small' color='error' />
                 </ListItemIcon>
@@ -213,6 +236,17 @@ const Task = ({ task, statuses, updateTask }) => {
           </Box>
         )}
       </Menu>
+
+      {/* Confirmation Modal */}
+      {isModal && (
+        <ConfirmationModal
+          error
+          title='Are you sure you want to continue?'
+          buttonText='Delete'
+          onClose={onModalClose}
+          onConfirm={deleteTask}
+        />
+      )}
     </>
   )
 }

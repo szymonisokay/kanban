@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './SingleBoard.module.css'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,15 +6,22 @@ import { getSingleBoard, reset } from '../../features/boards/boardSlice'
 import { Typography } from '@mui/material'
 import Loading from '../loading/Loading'
 import Tasks from '../tasks/Tasks'
+import StatusService from '../../services/StatusService'
 
 const SingleBoard = () => {
   const params = useParams()
   const dispatch = useDispatch()
-  const { boards, isSuccess, isLoading } = useSelector((state) => state.board)
+  const { boards, isLoading } = useSelector((state) => state.board)
+
+  const [statuses, setStatuses] = useState([])
 
   useEffect(() => {
     dispatch(getSingleBoard(params.id))
+    const fetchStatuses = async () => {
+      await StatusService.getStatuses().then((res) => setStatuses(res))
+    }
 
+    fetchStatuses()
     return () => {
       dispatch(reset())
     }
@@ -34,7 +41,7 @@ const SingleBoard = () => {
               {boards?.desc}
             </Typography>
           </div>
-          <Tasks tasks={boards?.tasks} />
+          <Tasks tasks={boards?.tasks} statuses={statuses} />
         </>
       )}
     </section>
