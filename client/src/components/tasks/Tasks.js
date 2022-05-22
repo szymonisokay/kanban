@@ -5,6 +5,7 @@ import { Grid, Typography } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import AddTask from './AddTask'
 import Task from './Task'
+import { useSelector } from 'react-redux'
 
 const Tasks = ({ tasks: localTasks }) => {
   const [statuses, setStatuses] = useState([])
@@ -48,14 +49,15 @@ const Tasks = ({ tasks: localTasks }) => {
     }
   }, [source])
 
-  console.log(tasks)
   return (
     <>
       <div className={styles.container}>
         <Grid container spacing={0} className={styles.grid}>
           {statuses?.map((status) => (
             <Grid item key={status._id} xs={12} className={styles.grid_item}>
-              <Typography variant='h6'>{status.type}</Typography>
+              <div className={styles.header}>
+                <Typography variant='h6'>{status.type}</Typography>
+              </div>
               {status.type === 'To Do' && (
                 <button
                   className={styles.add_btn}
@@ -68,7 +70,12 @@ const Tasks = ({ tasks: localTasks }) => {
                 {tasks?.map((task) => {
                   return (
                     task.status._id === status._id && (
-                      <Task key={task._id} task={task} />
+                      <Task
+                        key={task._id}
+                        task={task}
+                        statuses={statuses}
+                        updateTask={setTasks}
+                      />
                     )
                   )
                 })}

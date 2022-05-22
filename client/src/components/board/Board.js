@@ -34,11 +34,6 @@ const Board = ({ _id, name, desc, users, tasks, createdAt }) => {
               <Link to={`/boards/${_id}`}>{name}</Link>
             </Typography>
           }
-          subheader={
-            <Typography variant='subtitle2' color='gray'>
-              {moment(createdAt).format('DD MMM YYYY')}
-            </Typography>
-          }
         />
         <CardContent style={{ padding: '0 20px' }}>
           <Typography variant='body2' color='gray'>
@@ -46,15 +41,26 @@ const Board = ({ _id, name, desc, users, tasks, createdAt }) => {
           </Typography>
         </CardContent>
         <CardActions className={styles.board__footer}>
+          <div className={styles.date}>
+            <Typography variant='subtitle2' color='text.secondary'>
+              {moment(createdAt).format('DD MMM YYYY')}
+            </Typography>
+          </div>
           <div className={styles.users}>
             {usersToShow.map((user) =>
               user.image ? (
-                <img key={user._id} src={user.image} alt={user.name} />
+                <img
+                  key={user._id}
+                  src={user.image}
+                  alt={user.name}
+                  style={{ background: (theme) => theme.palette.primary.main }}
+                />
               ) : (
                 <Avatar
                   key={user._id}
                   className={styles.user_avatar}
                   title={user.name}
+                  sx={{ background: (theme) => theme.palette.primary.main }}
                 >
                   {user?.name.charAt(0).toUpperCase()}
                 </Avatar>

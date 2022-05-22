@@ -35,3 +35,19 @@ a {
 .speeddial_menu {
   position: fixed !important;
 }
+
+::-webkit-scrollbar {
+  width: 12px;
+  display: none;
+}
+
+::-webkit-scrollbar-track {
+  background: #cdcdcd;
+  border-radius: 25px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #8d8d8d;
+  border-radius: 25px;
+  width: 8px;
+}

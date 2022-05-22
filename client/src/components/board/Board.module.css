@@ -43,22 +43,10 @@
 }
 
 .board__footer {
-  padding: 20px !important;
+  padding: 16px !important;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-}
-
-.board__footer .created {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: var(--text);
-  font-size: 0.8rem;
-}
-
-.board__footer .created svg {
-  font-size: 18px;
 }
 
 .board__footer .users {
@@ -79,7 +67,7 @@
   width: 25px;
   height: 25px;
   border-radius: 100%;
-  background: var(--text);
+  background: #1976d2;
   display: flex;
   justify-content: center;
   align-items: center;

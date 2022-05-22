@@ -37,6 +37,22 @@ const createTask = asyncHandler(async (req, res) => {
   res.status(201).json(task)
 })
 
+const updateTask = asyncHandler(async (req, res) => {
+  const { id: taskId } = req.params
+
+  const task = await Task.findByIdAndUpdate(taskId, req.body, { new: true })
+
+  if (!task) {
+    res.status(400)
+    throw new Error('Task not found')
+  }
+
+  await Task.populate(task, { path: 'status' })
+  await Task.populate(task, { path: 'user', select: '-password -__v' })
+
+  res.status(201).json(task)
+})
+
 const getAllStatuses = asyncHandler(async (req, res) => {
   const statuses = await Status.find({})
 
@@ -48,4 +64,5 @@ module.exports = {
   getTasksFromBoard,
   createTask,
   getAllStatuses,
+  updateTask,
 }
