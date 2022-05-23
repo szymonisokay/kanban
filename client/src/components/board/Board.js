@@ -24,49 +24,47 @@ import { EditOutlined, DeleteOutline, ArrowForward } from '@mui/icons-material'
 
 import moment from 'moment'
 import { useSelector, useDispatch } from 'react-redux'
-import { deleteBoard } from '../../features/boards/boardSlice'
+import { deleteBoard, updateBoard } from '../../features/boards/boardSlice'
 import ConfirmationModal from '../modals/ConfirmationModal'
+import BoardModal from '../modals/BoardModal'
 
-const Board = ({ _id, name, desc, users, createdAt, createdBy }) => {
-  const [isModal, setIsModal] = useState(false)
-  const [deletedBoard, setDeletedBoard] = useState(null)
-
+const Board = ({ board }) => {
+  const [isDeleteModal, setIsDeleteModal] = useState(false)
+  const [isEditModal, setIsEditModal] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
 
   const { user } = useSelector((state) => state.users)
 
-  const usersToShow = users?.slice(0, 2)
-  const usersRest = users?.slice(2)
+  const usersToShow = board.users?.slice(0, 2)
+  const usersRest = board.users?.slice(2)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
+  const handleMenuOpen = (event) => setAnchorEl(event.currentTarget)
 
-  const handleMenuClose = () => {
-    setAnchorEl(null)
-  }
+  const handleMenuClose = () => setAnchorEl(null)
 
-  const navigateToBoard = () => {
-    navigate(`/boards/${_id}`)
-  }
+  const navigateToBoard = () => navigate(`/boards/${board._id}`)
 
-  const onButtonClick = () => {
-    setDeletedBoard(_id)
-    setIsModal(true)
+  const onButtonClick = (type) => {
+    type === 'edit' ? setIsEditModal(true) : setIsDeleteModal(true)
+
     setAnchorEl(null)
   }
 
   const onDeleteBoard = () => {
-    dispatch(deleteBoard(deletedBoard))
-    setIsModal(false)
+    dispatch(deleteBoard(board._id))
+    setIsDeleteModal(false)
   }
 
+  const onEditBoard = (boardData) =>
+    dispatch(updateBoard({ id: board._id, boardData }))
+
   const onModalClose = () => {
-    setIsModal(false)
+    setIsDeleteModal(false)
+    setIsEditModal(false)
   }
 
   return (
@@ -81,19 +79,19 @@ const Board = ({ _id, name, desc, users, createdAt, createdBy }) => {
             }
             title={
               <Typography variant='body1'>
-                <Link to={`/boards/${_id}`}>{name}</Link>
+                <Link to={`/boards/${board._id}`}>{board.name}</Link>
               </Typography>
             }
           />
           <CardContent style={{ padding: '0 16px' }}>
             <Typography variant='body2' color='gray'>
-              {desc}
+              {board.desc}
             </Typography>
           </CardContent>
           <CardActions className={styles.board__footer}>
             <div className={styles.date}>
               <Typography variant='subtitle2' color='text.secondary'>
-                {moment(createdAt).format('DD MMM YYYY')}
+                {moment(board.createdAt).format('DD MMM YYYY')}
               </Typography>
             </div>
             <div className={styles.users}>
@@ -141,14 +139,14 @@ const Board = ({ _id, name, desc, users, createdAt, createdBy }) => {
             <ListItemText>Go to board</ListItemText>
           </MenuItem>
           <Divider />
-          <MenuItem>
+          <MenuItem onClick={() => onButtonClick('edit')}>
             <ListItemIcon>
               <EditOutlined fontSize='small' />
             </ListItemIcon>
             <ListItemText>Edit board</ListItemText>
           </MenuItem>
-          {user.id === createdBy && (
-            <MenuItem onClick={onButtonClick}>
+          {user.id === board.createdBy && (
+            <MenuItem onClick={() => onButtonClick('delete')}>
               <ListItemIcon>
                 <DeleteOutline fontSize='small' color='error' />
               </ListItemIcon>
@@ -159,13 +157,22 @@ const Board = ({ _id, name, desc, users, createdAt, createdBy }) => {
       </Menu>
 
       {/* Confirmation Modal */}
-      {isModal && (
+      {isDeleteModal && (
         <ConfirmationModal
           error
           title='Are you sure you want to continue?'
           buttonText='Delete'
           onClose={onModalClose}
           onConfirm={onDeleteBoard}
+        />
+      )}
+
+      {/* Edit Modal */}
+      {isEditModal && (
+        <BoardModal
+          onClose={onModalClose}
+          onConfirm={onEditBoard}
+          board={board}
         />
       )}
     </>

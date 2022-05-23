@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import styles from './Header.module.css'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 import {
@@ -13,9 +13,9 @@ import {
   Button,
 } from '@mui/material'
 import { ExpandMore, AccountCircleOutlined, Logout } from '@mui/icons-material'
-
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutUser } from '../../features/users/userSlice'
+import jwt_decode from 'jwt-decode'
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false)
@@ -36,6 +36,20 @@ const Header = () => {
   const onLogin = () => {
     navigate('/login')
   }
+
+  useEffect(() => {
+    const decodeToken = () => {
+      if (!user) return
+
+      const { exp } = jwt_decode(user?.token)
+
+      if (Date.now() >= exp * 1000) {
+        logout()
+        return
+      }
+    }
+    decodeToken()
+  }, [])
 
   return (
     <header className={styles.header}>

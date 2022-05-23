@@ -19,10 +19,12 @@ const getSingleBoard = asyncHandler(async (req, res) => {
 const getBoards = asyncHandler(async (req, res) => {
   const { _id: userId } = req.user
 
-  const boards = await Board.find({ users: { $in: userId } }).populate({
-    path: 'users',
-    select: '-password -__v',
-  })
+  const boards = await Board.find({ users: { $in: userId } })
+    .populate({
+      path: 'users',
+      select: '-password -__v',
+    })
+    .sort('-createdAt')
 
   res.status(200).json(boards)
 })
@@ -72,9 +74,25 @@ const deleteBoard = asyncHandler(async (req, res) => {
   res.status(200).json(board._id)
 })
 
+const updateBoard = asyncHandler(async (req, res) => {
+  const { id: boardId } = req.params
+
+  const board = await Board.findByIdAndUpdate(boardId, req.body, { new: true })
+
+  if (!board) {
+    res.status(400)
+    throw new Error('Board not found')
+  }
+
+  await Board.populate(board, { path: 'users', select: '-password' })
+
+  res.status(200).json(board)
+})
+
 module.exports = {
   getSingleBoard,
   getBoards,
   createBoard,
   deleteBoard,
+  updateBoard,
 }

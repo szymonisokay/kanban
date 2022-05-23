@@ -16,7 +16,7 @@ import {
   CircularProgress,
 } from '@mui/material'
 
-import axios from 'axios'
+import UsersService from '../../services/UsersService'
 import { addBoard, reset } from '../../features/boards/boardSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -63,13 +63,7 @@ const AddBoard = () => {
   }
 
   const fetchUsers = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/users/')
-
-      setUsers(response.data)
-    } catch (error) {
-      console.log(error)
-    }
+    await UsersService.getUsers().then((res) => setUsers(res))
   }
 
   useEffect(() => {
@@ -77,11 +71,16 @@ const AddBoard = () => {
   }, [])
 
   useEffect(() => {
+    let timeout
     if (isSuccess && valueSent) {
       toast.success('Board created successfully')
-      setTimeout(() => {
+      timeout = setTimeout(() => {
         navigate(`/boards/${boards._id}`)
       }, 2000)
+    }
+
+    return () => {
+      clearTimeout(timeout)
     }
   }, [boards, isSuccess, valueSent, navigate])
 

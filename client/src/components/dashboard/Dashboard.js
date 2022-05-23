@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import styles from './Dashboard.module.css'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import Boards from '../board/Boards'
 import Loading from '../loading/Loading'
@@ -8,25 +8,11 @@ import Loading from '../loading/Loading'
 import { useDispatch, useSelector } from 'react-redux'
 import { getBoards, reset } from '../../features/boards/boardSlice'
 
-import { DashboardCustomize } from '@mui/icons-material'
 import { Typography } from '@mui/material'
-import Menu from '../menu/Menu'
-
-const actions = [{ icon: <DashboardCustomize />, name: 'Board' }]
 
 const Dashboard = () => {
   const dispatch = useDispatch()
-  const navigate = useNavigate()
   const { boards, isLoading } = useSelector((state) => state.board)
-
-  const [open, setOpen] = useState(false)
-
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-
-  const handleMenuItemClick = () => {
-    navigate('/add-board')
-  }
 
   useEffect(() => {
     dispatch(getBoards())
@@ -38,13 +24,6 @@ const Dashboard = () => {
 
   return (
     <div className={styles.dashboard}>
-      <Menu
-        actions={actions}
-        open={open}
-        handleClose={handleClose}
-        handleOpen={handleOpen}
-        handleItemClick={handleMenuItemClick}
-      />
       <div className={styles.dashboard_content}>
         <div className={styles.dashboard_content__header}>
           <h3>
