@@ -4,19 +4,37 @@ import { Grid, Typography } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import AddTask from './AddTask'
 import Task from './Task'
+import { useSelector } from 'react-redux'
+import TasksService from '../../services/TasksService'
 
 const Tasks = ({ tasks: localTasks, statuses }) => {
   const [addTask, setAddTask] = useState(false)
   const [selectedStatus, setSelectedStatus] = useState('')
   const [tasks, setTasks] = useState(localTasks)
 
-  const onAddTask = (status) => {
+  const { boards: board } = useSelector((state) => state.board)
+  const { user } = useSelector((state) => state.users)
+
+  const onBtnClick = (status) => {
     setAddTask(true)
     setSelectedStatus(status)
   }
 
   const onClose = () => {
     setAddTask(false)
+  }
+
+  const onAddTask = async (data) => {
+    const taskData = {
+      ...data,
+      status: selectedStatus,
+      boardId: board._id,
+    }
+
+    await TasksService.createTask(taskData, user.token).then((res) => {
+      setTasks((prev) => [...prev, res])
+      setAddTask(false)
+    })
   }
 
   return (
@@ -31,7 +49,7 @@ const Tasks = ({ tasks: localTasks, statuses }) => {
               {status.type === 'To Do' && (
                 <button
                   className={styles.add_btn}
-                  onClick={() => onAddTask(status._id)}
+                  onClick={() => onBtnClick(status._id)}
                 >
                   <Add />
                 </button>
@@ -54,13 +72,7 @@ const Tasks = ({ tasks: localTasks, statuses }) => {
           ))}
         </Grid>
       </div>
-      {addTask && (
-        <AddTask
-          status={selectedStatus}
-          onClose={onClose}
-          setTasks={setTasks}
-        />
-      )}
+      {addTask && <AddTask onClose={onClose} setTask={onAddTask} />}
     </>
   )
 }

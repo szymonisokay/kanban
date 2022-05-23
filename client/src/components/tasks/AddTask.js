@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styles from './AddTask.module.css'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import {
   Typography,
   TextField,
@@ -10,15 +10,13 @@ import {
   MenuItem,
   Button,
 } from '@mui/material'
-import TasksService from '../../services/TasksService'
 
-const AddTask = ({ status, onClose, setTasks }) => {
+const AddTask = ({ onClose, setTask, edit, task }) => {
+  const [name, setName] = useState(edit ? task.name : '')
+  const [desc, setDesc] = useState(edit ? task.desc : '')
+  const [selectedUser, setSelectedUser] = useState(edit ? task.user._id : '')
+
   const { boards: board } = useSelector((state) => state.board)
-  const { user } = useSelector((state) => state.users)
-
-  const [name, setName] = useState('')
-  const [desc, setDesc] = useState('')
-  const [selectedUser, setSelectedUser] = useState('')
 
   const onUserChange = (event) => {
     const {
@@ -27,20 +25,16 @@ const AddTask = ({ status, onClose, setTasks }) => {
     setSelectedUser(value)
   }
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault()
 
     const taskData = {
       name,
       desc,
       user: selectedUser,
-      status,
-      boardId: board._id,
     }
 
-    const task = await TasksService.createTask(taskData, user.token)
-
-    setTasks((prev) => [...prev, task])
+    setTask(taskData)
 
     setName('')
     setDesc('')
@@ -51,7 +45,9 @@ const AddTask = ({ status, onClose, setTasks }) => {
     <>
       <div className={styles.overlay} onClick={onClose} />
       <div className={styles.modal}>
-        <Typography variant='h6'>Create new task</Typography>
+        <Typography variant='h6'>
+          {edit ? 'Edit' : 'Create new'} task
+        </Typography>
         <div className={styles.modal_content}>
           <form className={styles.form} onSubmit={handleSubmit}>
             <TextField
@@ -93,7 +89,7 @@ const AddTask = ({ status, onClose, setTasks }) => {
                 Close
               </Button>
               <Button variant='contained' type='submit'>
-                Create
+                {edit ? 'Edit' : 'Create'}
               </Button>
             </div>
           </form>

@@ -45,11 +45,7 @@ const createBoard = asyncHandler(async (req, res) => {
 
   users.push(userId.toString())
 
-  console.log(users)
-
   const uniqueUsers = [...new Set(users)]
-
-  console.log(uniqueUsers)
 
   const board = await Board.create({
     name,
@@ -63,8 +59,22 @@ const createBoard = asyncHandler(async (req, res) => {
   res.status(201).json(board)
 })
 
+const deleteBoard = asyncHandler(async (req, res) => {
+  const { id: boardId } = req.params
+
+  const board = await Board.findByIdAndDelete(boardId, { new: true })
+
+  if (!board) {
+    res.status(400)
+    throw new Error('Board not found')
+  }
+
+  res.status(200).json(board._id)
+})
+
 module.exports = {
   getSingleBoard,
   getBoards,
   createBoard,
+  deleteBoard,
 }

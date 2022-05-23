@@ -25,6 +25,7 @@ import { useSelector } from 'react-redux'
 import { Box } from '@mui/system'
 import TasksService from '../../services/TasksService'
 import ConfirmationModal from '../modals/ConfirmationModal'
+import AddTask from './AddTask'
 
 const Task = ({ task, statuses, updateTask }) => {
   const { user } = useSelector((state) => state.users)
@@ -37,6 +38,8 @@ const Task = ({ task, statuses, updateTask }) => {
   const [isStatusMenuOpened, setIsStatusMenuOpened] = useState(false)
   const [isModal, setIsModal] = useState(false)
   const [deletedTask, setDeletedTask] = useState(null)
+  const [selectedTask, setSelectedTask] = useState(null)
+  const [editTask, setEditTask] = useState(false)
 
   const open = Boolean(anchorEl)
 
@@ -96,6 +99,38 @@ const Task = ({ task, statuses, updateTask }) => {
     await TasksService.deleteTask(deletedTask, user.token).then(() =>
       updateTask((prev) => prev.filter((task) => task._id !== deletedTask))
     )
+  }
+
+  const onButtonClick = (task) => {
+    setSelectedTask(task)
+    setEditTask(true)
+    setAnchorEl(null)
+  }
+
+  const onEditTask = async (data) => {
+    const taskData = {
+      ...selectedTask,
+      name: data.name,
+      desc: data.desc,
+      user: data.user,
+    }
+
+    await TasksService.updateTask(selectedTask._id, taskData, user.token).then(
+      (res) => {
+        updateTask((prev) =>
+          prev.map((task) =>
+            task._id === res._id
+              ? { ...task, name: res.name, desc: res.desc, user: res.user }
+              : task
+          )
+        )
+        setEditTask(false)
+      }
+    )
+  }
+
+  const onEditTaskClose = () => {
+    setEditTask(false)
   }
 
   return (
@@ -169,7 +204,7 @@ const Task = ({ task, statuses, updateTask }) => {
               </Typography>
             </MenuItem>
             <Divider />
-            <MenuItem>
+            <MenuItem onClick={() => onButtonClick(task)}>
               <ListItemIcon>
                 <EditOutlined fontSize='small' />
               </ListItemIcon>
@@ -245,6 +280,16 @@ const Task = ({ task, statuses, updateTask }) => {
           buttonText='Delete'
           onClose={onModalClose}
           onConfirm={deleteTask}
+        />
+      )}
+
+      {/* Edit Task */}
+      {editTask && (
+        <AddTask
+          edit
+          onClose={onEditTaskClose}
+          task={selectedTask}
+          setTask={onEditTask}
         />
       )}
     </>

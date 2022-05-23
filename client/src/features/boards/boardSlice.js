@@ -63,6 +63,24 @@ export const addBoard = createAsyncThunk(
   }
 )
 
+export const deleteBoard = createAsyncThunk(
+  'board/deleteBoard',
+  async (id, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().users.user.token
+      return await boardService.deleteBoard(id, token)
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(message)
+    }
+  }
+)
+
 export const boardSlice = createSlice({
   name: 'board',
   initialState,
@@ -115,6 +133,21 @@ export const boardSlice = createSlice({
         state.boards = action.payload
       })
       .addCase(getSingleBoard.rejected, (state, action) => {
+        state.isError = true
+        state.isLoading = false
+        state.message = action.payload
+      })
+      .addCase(deleteBoard.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(deleteBoard.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.boards = state.boards.filter(
+          (board) => board._id !== action.payload
+        )
+      })
+      .addCase(deleteBoard.rejected, (state, action) => {
         state.isError = true
         state.isLoading = false
         state.message = action.payload

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import styles from './Dashboard.module.css'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -17,9 +17,9 @@ const actions = [{ icon: <DashboardCustomize />, name: 'Board' }]
 const Dashboard = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { boards, isLoading, isSuccess } = useSelector((state) => state.board)
+  const { boards, isLoading } = useSelector((state) => state.board)
 
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = useState(false)
 
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
