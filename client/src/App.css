@@ -25,15 +25,13 @@ a {
   margin: auto;
 }
 
-.global_action_btn {
-  position: fixed !important;
-  bottom: 20px;
-  right: 20px;
-  z-index: 50 !important;
+.contained_btn {
+  background: #6c63ff !important;
+  padding: 5px 20px !important;
 }
 
-.speeddial_menu {
-  position: fixed !important;
+.contained_btn:hover {
+  background: #554dff !important;
 }
 
 ::-webkit-scrollbar {

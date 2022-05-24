@@ -5,3 +5,14 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
 }
+
+.no_boards {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.image {
+  height: 300px;
+  margin-bottom: 30px;
+}

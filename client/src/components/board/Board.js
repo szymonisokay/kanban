@@ -27,10 +27,12 @@ import { useSelector, useDispatch } from 'react-redux'
 import { deleteBoard, updateBoard } from '../../features/boards/boardSlice'
 import ConfirmationModal from '../modals/ConfirmationModal'
 import BoardModal from '../modals/BoardModal'
+import ShowUsersModal from '../modals/ShowUsersModal'
 
 const Board = ({ board }) => {
   const [isDeleteModal, setIsDeleteModal] = useState(false)
   const [isEditModal, setIsEditModal] = useState(false)
+  const [isUserModal, setIsUserModal] = useState(false)
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
 
@@ -49,7 +51,13 @@ const Board = ({ board }) => {
   const navigateToBoard = () => navigate(`/boards/${board._id}`)
 
   const onButtonClick = (type) => {
-    type === 'edit' ? setIsEditModal(true) : setIsDeleteModal(true)
+    if (type === 'edit') {
+      setIsEditModal(true)
+    } else if (type === 'user') {
+      setIsUserModal(true)
+    } else {
+      setIsDeleteModal(true)
+    }
 
     setAnchorEl(null)
   }
@@ -65,6 +73,7 @@ const Board = ({ board }) => {
   const onModalClose = () => {
     setIsDeleteModal(false)
     setIsEditModal(false)
+    setIsUserModal(false)
   }
 
   return (
@@ -94,7 +103,7 @@ const Board = ({ board }) => {
                 {moment(board.createdAt).format('DD MMM YYYY')}
               </Typography>
             </div>
-            <div className={styles.users}>
+            <div className={styles.users} onClick={() => onButtonClick('user')}>
               {usersToShow.map((user) =>
                 user.image ? (
                   <img
@@ -174,6 +183,11 @@ const Board = ({ board }) => {
           onConfirm={onEditBoard}
           board={board}
         />
+      )}
+
+      {/* Users Modal */}
+      {isUserModal && (
+        <ShowUsersModal users={board.users} onClose={onModalClose} />
       )}
     </>
   )
