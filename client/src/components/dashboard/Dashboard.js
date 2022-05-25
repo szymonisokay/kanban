@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import styles from './Dashboard.module.css'
-import { Link } from 'react-router-dom'
 
 import Boards from '../board/Boards'
 import Loading from '../loading/Loading'
@@ -23,7 +22,7 @@ const Dashboard = () => {
   }, [dispatch])
 
   return (
-    <div className={styles.dashboard}>
+    <div className={boards.length ? 'container' : 'container flex'}>
       <div className={styles.dashboard_content}>
         {boards.length >= 1 && (
           <div className={styles.dashboard_content__header}>

@@ -14,6 +14,13 @@
   font-family: 'Open Sans', sans-serif;
 }
 
+body,
+html {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
 a {
   color: inherit;
   text-decoration: none;
@@ -28,8 +35,26 @@ a {
 }
 
 .pages {
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  padding-top: 90px;
+  min-height: 100vh;
+  padding-top: 100px;
+}
+
+.container {
+  flex: 2;
+  width: 100%;
+  height: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.container.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .footer {
@@ -39,6 +64,10 @@ a {
 .contained_btn {
   background: var(--primary-main) !important;
   padding: 5px 20px !important;
+}
+
+.contained_btn.block {
+  padding: 10px 20px !important;
 }
 
 .contained_btn:hover {

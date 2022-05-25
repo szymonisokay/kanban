@@ -96,7 +96,7 @@ const AddBoard = () => {
   }, [dispatch, isError, message])
 
   return (
-    <div className={styles.container}>
+    <div className='container flex'>
       <Card className={styles.card}>
         <Typography variant='h6'>Create new board</Typography>
         <form className={styles.form} onSubmit={onSubmit}>
@@ -147,7 +147,11 @@ const AddBoard = () => {
             onChange={(e) => setDesc(e.target.value)}
           />
 
-          <Button type='submit' color='primary' variant='contained'>
+          <Button
+            type='submit'
+            variant='contained'
+            className='contained_btn block'
+          >
             {isLoading ? <CircularProgress /> : 'Create'}
           </Button>
         </form>

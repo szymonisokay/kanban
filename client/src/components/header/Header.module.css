@@ -25,19 +25,17 @@
   padding: 8px 10px;
   cursor: pointer;
   border-radius: 6px;
-  color: var(--text);
   font-size: 16px;
 
   transition: all 0.3s ease-in-out;
 }
 
 .menu li a:hover h6 {
-  color: var(--textActive);
+  color: var(--primary-main);
 }
 
 .menu li a.active h6 {
-  /* color: var(--textActive); */
-  color: #1976d2;
+  color: var(--primary-main);
 }
 
 .user {

@@ -1,9 +1,7 @@
 import './App.css'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Dashboard from './components/dashboard/Dashboard'
 import Header from './components/header/Header'
-import Boards from './pages/boards/Boards'
-import Teams from './components/teams/Teams'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import SingleBoard from './components/board/SingleBoard'
 import Login from './pages/login/Login'
 import Register from './pages/register/Register'
@@ -49,9 +47,9 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
           </Routes>
-        </div>
-        <div className='footer'>
-          <Footer />
+          <div className='footer'>
+            <Footer />
+          </div>
         </div>
       </Router>
       <ToastContainer

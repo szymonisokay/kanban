@@ -3,8 +3,15 @@ import styles from './Boards.module.css'
 import Board from './Board'
 import { ReactComponent as BoardImage } from '../../assets/images/board.svg'
 import { Button, Typography } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 const Boards = ({ boards }) => {
+  const navigate = useNavigate()
+
+  const navigateTo = () => {
+    navigate('/add-board')
+  }
+
   return (
     <>
       <div className={styles.boards__content}>
@@ -17,7 +24,11 @@ const Boards = ({ boards }) => {
           <Typography variant='subtitle1' sx={{ marginBottom: '10px' }}>
             Create your first board
           </Typography>
-          <Button variant='contained' className='contained_btn'>
+          <Button
+            variant='contained'
+            className='contained_btn'
+            onClick={navigateTo}
+          >
             Create
           </Button>
         </div>

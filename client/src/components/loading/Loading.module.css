@@ -10,5 +10,5 @@
 }
 
 .loading_box span {
-  color: var(--textActive);
+  color: var(--primary-main);
 }

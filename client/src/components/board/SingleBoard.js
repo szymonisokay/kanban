@@ -28,7 +28,7 @@ const SingleBoard = () => {
   }, [dispatch, params])
 
   return (
-    <section className={styles.single_board}>
+    <section className={isLoading ? 'container flex' : 'container'}>
       {isLoading ? (
         <Loading />
       ) : (
