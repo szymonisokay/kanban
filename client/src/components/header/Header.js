@@ -27,11 +27,11 @@ const Header = () => {
     setIsOpen(!isOpen)
   }
 
-  const logout = () => {
-    setIsOpen(!isOpen)
+  const logout = useCallback(() => {
+    setIsOpen(false)
     dispatch(logoutUser())
     navigate('/login')
-  }
+  }, [dispatch, navigate])
 
   const onLogin = () => {
     navigate('/login')
@@ -49,7 +49,7 @@ const Header = () => {
       }
     }
     decodeToken()
-  }, [])
+  }, [logout, user])
 
   return (
     <header className={styles.header}>

@@ -1,5 +1,6 @@
 .container {
-  padding: 170px 20px;
+  height: 100%;
+  padding: 100px 0;
 }
 
 .card {

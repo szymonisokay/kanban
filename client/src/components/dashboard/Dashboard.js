@@ -25,15 +25,13 @@ const Dashboard = () => {
   return (
     <div className={styles.dashboard}>
       <div className={styles.dashboard_content}>
-        <div className={styles.dashboard_content__header}>
-          <h3>
-            <Link to='/boards'>
-              <Typography variant='h6' color='dark'>
-                Boards
-              </Typography>
-            </Link>
-          </h3>
-        </div>
+        {boards.length >= 1 && (
+          <div className={styles.dashboard_content__header}>
+            <Typography variant='h6' color='dark'>
+              Boards
+            </Typography>
+          </div>
+        )}
         {isLoading ? <Loading /> : <Boards boards={boards} />}
       </div>
     </div>

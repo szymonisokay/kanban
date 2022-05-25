@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;700&display=swap');
 
 :root {
-  --main: #f8f8f8;
-  --accent: #ebebeb;
-  --text: #6d6d6d;
-  --textActive: #0e0e0e;
+  --primary-main: #6c63ff;
+  --primary-hover: #554dff;
+  --light-main: #ffffff;
+  --light-hover: #bab5ff;
 }
 
 * {
@@ -19,24 +19,44 @@ a {
   text-decoration: none;
 }
 
-.page {
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99;
+}
+
+.pages {
   height: 100%;
-  max-width: 1400px;
-  margin: auto;
+  padding-top: 90px;
+}
+
+.footer {
+  width: 100%;
 }
 
 .contained_btn {
-  background: #6c63ff !important;
+  background: var(--primary-main) !important;
   padding: 5px 20px !important;
 }
 
 .contained_btn:hover {
-  background: #554dff !important;
+  background: var(--primary-hover) !important;
+}
+
+.text_btn {
+  background: var(--light-main) !important;
+  padding: 5px 20px !important;
+}
+
+.text_btn:hover {
+  background: var(--light-hover) !important;
 }
 
 ::-webkit-scrollbar {
   width: 12px;
-  display: none;
+  /* display: none; */
 }
 
 ::-webkit-scrollbar-track {

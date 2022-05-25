@@ -15,54 +15,44 @@ import Footer from './components/footer/Footer'
 
 function App() {
   return (
-    <div className='page'>
+    <div className='main'>
       <Router>
-        <Header />
-        <Routes>
-          <Route
-            path='/'
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/boards'
-            element={
-              <ProtectedRoute>
-                <Boards />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/boards/:id'
-            element={
-              <ProtectedRoute>
-                <SingleBoard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/teams'
-            element={
-              <ProtectedRoute>
-                <Teams />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path='/add-board'
-            element={
-              <ProtectedRoute>
-                <AddBoard />
-              </ProtectedRoute>
-            }
-          />
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-        </Routes>
-        <Footer />
+        <div className='header'>
+          <Header />
+        </div>
+        <div className='pages'>
+          <Routes>
+            <Route
+              path='/'
+              element={
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/boards/:id'
+              element={
+                <ProtectedRoute>
+                  <SingleBoard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/add-board'
+              element={
+                <ProtectedRoute>
+                  <AddBoard />
+                </ProtectedRoute>
+              }
+            />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+          </Routes>
+        </div>
+        <div className='footer'>
+          <Footer />
+        </div>
       </Router>
       <ToastContainer
         position='bottom-right'

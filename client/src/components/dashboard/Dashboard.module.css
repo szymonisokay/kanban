@@ -1,10 +1,9 @@
 .dashboard {
-  margin-top: 80px;
-  min-height: 700px;
+  height: 100%;
 }
 
 .dashboard_content {
-  padding: 20px 0;
+  padding: 20px 0 120px;
 }
 
 .dashboard_content__header {
