@@ -2,6 +2,8 @@
   background: #fff;
   padding: 20px;
   box-shadow: 0px 3px 15px rgb(0 0 0 / 10%);
+  z-index: 10;
+  position: relative;
 }
 
 .header .container {
@@ -10,6 +12,18 @@
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+}
+
+.menu {
+  display: flex;
+  justify-content: flex-end;
+  flex: 2;
+}
+
+.nav {
+  display: flex;
+  flex: 2;
+  justify-content: center;
 }
 
 .menu ul {
@@ -41,6 +55,10 @@
 .user {
   position: relative;
   z-index: 10;
+}
+
+.user ul {
+  flex-direction: column;
 }
 
 .user .user_content {
@@ -89,4 +107,40 @@
   transform: translateY(0);
   opacity: 1;
   visibility: visible;
+}
+
+.close_icon {
+  display: none;
+}
+
+@media (max-width: 620px) {
+  .close_icon {
+    display: block;
+  }
+
+  .menu {
+    position: absolute;
+    top: -150px;
+    left: 0;
+    background: #fff;
+    width: 100%;
+    flex-direction: column;
+    padding: 0 20px 20px;
+    box-shadow: 0px 15px 15px rgb(0 0 0 / 10%);
+    transition: all 0.3s ease-in-out;
+    z-index: -1;
+  }
+
+  .menu.active {
+    top: 172px;
+  }
+
+  .nav {
+    justify-content: flex-start;
+  }
+
+  .menu ul {
+    flex-direction: column;
+    gap: 0;
+  }
 }

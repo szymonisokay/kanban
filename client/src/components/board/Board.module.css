@@ -67,11 +67,11 @@
   width: 25px;
   height: 25px;
   border-radius: 100%;
-  background: #1976d2;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 0.8rem;
-  color: var(--main);
   cursor: pointer;
+  background: var(--primary-main);
+  color: #fff;
 }

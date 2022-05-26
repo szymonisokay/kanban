@@ -32,6 +32,7 @@ a {
   left: 0;
   width: 100%;
   z-index: 99;
+  background: #fff;
 }
 
 .pages {
@@ -81,6 +82,10 @@ a {
 
 .text_btn:hover {
   background: var(--light-hover) !important;
+}
+
+.input-control input {
+  border-color: var(--primary-main) !important;
 }
 
 ::-webkit-scrollbar {

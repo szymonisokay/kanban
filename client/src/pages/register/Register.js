@@ -1,9 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import styles from './Register.module.css'
-import { Button, Card, TextField, Typography } from '@mui/material'
+import {
+  Button,
+  Card,
+  TextField,
+  Typography,
+  CircularProgress,
+} from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { registerUser, reset, setMessage } from '../../features/users/userSlice'
-import Loading from '../../components/loading/Loading'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
@@ -48,53 +53,62 @@ const Register = () => {
   }, [isSuccess, isError, navigate, message, dispatch])
 
   return (
-    <div className={styles.container}>
+    <div className={`container flex ${styles.register}`}>
       <Card className={styles.card}>
         <Typography variant='h6'>Create new account</Typography>
         <form className={styles.form} onSubmit={onFormSubmit}>
-          <div className={styles.form_group}>
-            <TextField
-              variant='outlined'
-              label='Name'
-              type='text'
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-            <TextField
-              variant='outlined'
-              label='Email'
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className={styles.form_group}>
-            <TextField
-              variant='outlined'
-              label='Password'
-              type='password'
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <TextField
-              variant='outlined'
-              label='Confirm password'
-              type='password'
-              value={password2}
-              onChange={(e) => setPassword2(e.target.value)}
-            />
-          </div>
+          <TextField
+            variant='outlined'
+            label='Name'
+            type='text'
+            value={name}
+            size='small'
+            onChange={(e) => setName(e.target.value)}
+          />
+          <TextField
+            variant='outlined'
+            label='Email'
+            type='email'
+            value={email}
+            size='small'
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <TextField
+            variant='outlined'
+            label='Password'
+            type='password'
+            value={password}
+            size='small'
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <TextField
+            variant='outlined'
+            label='Confirm password'
+            type='password'
+            value={password2}
+            size='small'
+            onChange={(e) => setPassword2(e.target.value)}
+          />
+
           <Button type='submit' variant='contained'>
-            {isLoading ? <Loading className='white' /> : 'Register'}
+            {isLoading ? (
+              <CircularProgress
+                size={24}
+                sx={{ color: (theme) => theme.palette.secondary.main }}
+              />
+            ) : (
+              'Register'
+            )}
           </Button>
         </form>
+        <div className={styles.meta}>
+          <Typography variant='subtitle2'>
+            Already have an account?
+            <Link to='/login'> Sign in</Link>
+          </Typography>
+        </div>
       </Card>
-      <div className={styles.meta}>
-        <Typography variant='subtitle2'>Already have an account?</Typography>
-        <Typography variant='subtitle2'>
-          <Link to='/login'> Sign in</Link>
-        </Typography>
-      </div>
     </div>
   )
 }

@@ -38,8 +38,8 @@ const Board = ({ board }) => {
 
   const { user } = useSelector((state) => state.users)
 
-  const usersToShow = board.users?.slice(0, 2)
-  const usersRest = board.users?.slice(2)
+  const usersToShow = board.users?.slice(0, 1)
+  const usersRest = board.users?.slice(1)
 
   const navigate = useNavigate()
   const dispatch = useDispatch()

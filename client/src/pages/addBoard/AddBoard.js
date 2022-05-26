@@ -105,10 +105,12 @@ const AddBoard = () => {
             value={name}
             onChange={(e) => setName(e.target.value)}
             required
+            className='input-control'
           />
           <FormControl>
             <InputLabel id='select-user'>Assign users</InputLabel>
             <Select
+              className='input-control'
               sx={{ width: '100%' }}
               label='users'
               labelId='select-user'
@@ -139,7 +141,7 @@ const AddBoard = () => {
           </FormControl>
 
           <TextField
-            className={styles.textarea}
+            className={`input-control ${styles.textarea}`}
             rows={4}
             multiline
             label='Description'
@@ -152,7 +154,14 @@ const AddBoard = () => {
             variant='contained'
             className='contained_btn block'
           >
-            {isLoading ? <CircularProgress /> : 'Create'}
+            {isLoading ? (
+              <CircularProgress
+                size={24}
+                sx={{ color: (theme) => theme.palette.secondary.main }}
+              />
+            ) : (
+              'Create'
+            )}
           </Button>
         </form>
       </Card>

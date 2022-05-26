@@ -1,8 +1,5 @@
-.container {
-  /* padding-top: 100px; */
-  height: 100vh;
-  display: grid;
-  place-content: center;
+.register {
+  margin-top: -100px;
 }
 
 .card {
@@ -22,9 +19,13 @@
 }
 
 .meta {
-  margin-top: 5px;
+  margin-top: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 5px;
+}
+
+.meta a {
+  color: var(--primary-main);
 }
