@@ -11,12 +11,14 @@ import {
   ListItemIcon,
   ListItemText,
   Button,
+  Divider,
 } from '@mui/material'
 import {
   ExpandMore,
   AccountCircleOutlined,
   Logout,
   Menu,
+  Close,
 } from '@mui/icons-material'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutUser } from '../../features/users/userSlice'
@@ -35,11 +37,13 @@ const Header = () => {
 
   const logout = useCallback(() => {
     setIsOpen(false)
+    setIsMenuActive(false)
     dispatch(logoutUser())
     navigate('/login')
   }, [dispatch, navigate])
 
   const onLogin = () => {
+    setIsMenuActive(false)
     navigate('/login')
   }
 
@@ -68,13 +72,11 @@ const Header = () => {
           </Link>
         </div>
         <Menu
-          className={styles.close_icon}
+          className={styles.menu_icon}
           onClick={() => setIsMenuActive(!isMenuActive)}
         />
 
-        <div
-          className={`${styles.menu} ${isMenuActive ? 'active' : undefined}`}
-        >
+        <div className={styles.menu}>
           <nav className={styles.nav}>
             <ul>
               <li>
@@ -99,55 +101,116 @@ const Header = () => {
               </li>
             </ul>
           </nav>
+        </div>
 
-          {user ? (
-            <div className={styles.user}>
-              <div className={styles.user_content} onClick={handleOpen}>
-                {user.image ? (
-                  <Avatar src={user.image} alt={user.name} />
-                ) : (
-                  <Avatar sx={{ bgcolor: 'primary.main' }}>
-                    {' '}
-                    {user.name.charAt(0).toUpperCase()}
-                  </Avatar>
-                )}
-                <div className={styles.user_info}>
-                  <Typography variant='body1'>{user.name}</Typography>
-                  <IconButton
-                    className={`${styles.user_menu_btn} ${
-                      isOpen ? styles.active : undefined
-                    }`}
-                  >
-                    <ExpandMore />
-                  </IconButton>
-                </div>
+        {user ? (
+          <div className={styles.user}>
+            <div className={styles.user_content} onClick={handleOpen}>
+              {user.image ? (
+                <Avatar src={user.image} alt={user.name} />
+              ) : (
+                <Avatar sx={{ bgcolor: 'primary.main' }}>
+                  {user.name.charAt(0).toUpperCase()}
+                </Avatar>
+              )}
+              <div className={styles.user_info}>
+                <Typography variant='body1'>{user.name}</Typography>
+                <IconButton
+                  className={`${styles.user_menu_btn} ${
+                    isOpen ? styles.active : undefined
+                  }`}
+                >
+                  <ExpandMore />
+                </IconButton>
               </div>
-              <Box
-                className={`${styles.user_menu} ${
-                  isOpen ? styles.active : undefined
-                }`}
-              >
-                <MenuList sx={{ width: '100%' }}>
-                  <MenuItem>
-                    <ListItemIcon>
-                      <AccountCircleOutlined fontSize='small' />
-                    </ListItemIcon>
-                    <ListItemText>Account</ListItemText>
-                  </MenuItem>
-                  <MenuItem onClick={logout}>
-                    <ListItemIcon>
-                      <Logout fontSize='small' />
-                    </ListItemIcon>
-                    <ListItemText>Log out</ListItemText>
-                  </MenuItem>
-                </MenuList>
-              </Box>
             </div>
-          ) : (
-            <Button variant='contained' color='primary' onClick={onLogin}>
-              Login
-            </Button>
-          )}
+            <Box
+              className={`${styles.user_menu} ${
+                isOpen ? styles.active : undefined
+              }`}
+            >
+              <MenuList sx={{ width: '100%' }}>
+                <MenuItem>
+                  <ListItemIcon>
+                    <AccountCircleOutlined fontSize='small' />
+                  </ListItemIcon>
+                  <ListItemText>Account</ListItemText>
+                </MenuItem>
+                <MenuItem onClick={logout}>
+                  <ListItemIcon>
+                    <Logout fontSize='small' />
+                  </ListItemIcon>
+                  <ListItemText>Log out</ListItemText>
+                </MenuItem>
+              </MenuList>
+            </Box>
+          </div>
+        ) : (
+          <Button
+            variant='contained'
+            color='primary'
+            onClick={onLogin}
+            className={styles.login}
+          >
+            Login
+          </Button>
+        )}
+
+        <div
+          className={`${styles.mobile_menu} ${
+            isMenuActive ? styles.active : undefined
+          }`}
+        >
+          <Close
+            className={styles.close}
+            onClick={() => setIsMenuActive(false)}
+          />
+          <Typography variant='h3'>Task Manager</Typography>
+          <nav>
+            <ul>
+              <li>
+                <NavLink
+                  to='/'
+                  className={({ isActive }) =>
+                    isActive ? styles.active : undefined
+                  }
+                  onClick={() => setIsMenuActive(false)}
+                >
+                  <Typography variant='subtitle1'>Dashboard</Typography>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to='/add-board'
+                  className={({ isActive }) =>
+                    isActive ? styles.active : undefined
+                  }
+                  onClick={() => setIsMenuActive(false)}
+                >
+                  <Typography variant='subtitle1'>Add board</Typography>
+                </NavLink>
+              </li>
+              <Divider />
+              <li>
+                <Link to='/' onClick={() => setIsMenuActive(false)}>
+                  <Typography variant='subtitle1'>Account</Typography>
+                </Link>
+              </li>
+              {user ? (
+                <li>
+                  <Button variant='contained' onClick={logout}>
+                    Log out
+                  </Button>
+                </li>
+              ) : (
+                <li>
+                  <Button variant='contained' onClick={onLogin}>
+                    Login
+                  </Button>
+                </li>
+              )}
+            </ul>
+          </nav>
         </div>
       </div>
     </header>
