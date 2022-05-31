@@ -130,12 +130,14 @@ const Header = () => {
               }`}
             >
               <MenuList sx={{ width: '100%' }}>
-                <MenuItem>
-                  <ListItemIcon>
-                    <AccountCircleOutlined fontSize='small' />
-                  </ListItemIcon>
-                  <ListItemText>Account</ListItemText>
-                </MenuItem>
+                <Link to={`/users/${user.id}`}>
+                  <MenuItem>
+                    <ListItemIcon>
+                      <AccountCircleOutlined fontSize='small' />
+                    </ListItemIcon>
+                    <ListItemText>Account</ListItemText>
+                  </MenuItem>
+                </Link>
                 <MenuItem onClick={logout}>
                   <ListItemIcon>
                     <Logout fontSize='small' />

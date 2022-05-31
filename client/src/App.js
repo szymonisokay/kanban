@@ -10,6 +10,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import AddBoard from './pages/addBoard/AddBoard'
 import Footer from './components/footer/Footer'
+import User from './pages/user/User'
 
 function App() {
   return (
@@ -41,6 +42,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AddBoard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path='/users/:id'
+              element={
+                <ProtectedRoute>
+                  <User />
                 </ProtectedRoute>
               }
             />

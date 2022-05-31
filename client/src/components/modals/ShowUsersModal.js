@@ -9,8 +9,15 @@ import {
   Divider,
   Button,
 } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 const ShowUsersModal = ({ users, onClose }) => {
+  const navigate = useNavigate()
+
+  const navigateTo = (id) => {
+    navigate(`/users/${id}`)
+  }
+
   return (
     <>
       <div className={styles.modal_overlay} onClick={onClose} />
@@ -22,7 +29,11 @@ const ShowUsersModal = ({ users, onClose }) => {
                 <ListItem
                   key={user._id}
                   secondaryAction={
-                    <Button variant='text' color='primary'>
+                    <Button
+                      variant='text'
+                      color='primary'
+                      onClick={() => navigateTo(user._id)}
+                    >
                       Show
                     </Button>
                   }
