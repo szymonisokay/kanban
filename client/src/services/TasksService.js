@@ -38,10 +38,10 @@ const deleteTask = async (id, token) => {
   return response.data
 }
 
-const TasksService = {
+const tasksService = {
   createTask,
   updateTask,
   deleteTask,
 }
 
-export default TasksService
+export default tasksService

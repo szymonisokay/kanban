@@ -4,16 +4,15 @@ import { Grid, Typography } from '@mui/material'
 import { Add } from '@mui/icons-material'
 import AddTask from './AddTask'
 import Task from './Task'
-import { useSelector } from 'react-redux'
-import TasksService from '../../services/TasksService'
+import { useDispatch, useSelector } from 'react-redux'
+import { createTask } from '../../features/boards/boardAsyncActions'
 
-const Tasks = ({ tasks: localTasks, statuses }) => {
+const Tasks = ({ statuses }) => {
   const [addTask, setAddTask] = useState(false)
   const [selectedStatus, setSelectedStatus] = useState('')
-  const [tasks, setTasks] = useState(localTasks)
 
   const { boards: board } = useSelector((state) => state.board)
-  const { user } = useSelector((state) => state.users)
+  const dispatch = useDispatch()
 
   const onBtnClick = (status) => {
     setAddTask(true)
@@ -31,10 +30,7 @@ const Tasks = ({ tasks: localTasks, statuses }) => {
       boardId: board._id,
     }
 
-    await TasksService.createTask(taskData, user.token).then((res) => {
-      setTasks((prev) => [...prev, res])
-      setAddTask(false)
-    })
+    dispatch(createTask(taskData))
   }
 
   return (
@@ -55,15 +51,10 @@ const Tasks = ({ tasks: localTasks, statuses }) => {
                 </button>
               )}
               <div className={styles.tasks_content}>
-                {tasks?.map((task) => {
+                {board.tasks?.map((task) => {
                   return (
                     task.status._id === status._id && (
-                      <Task
-                        key={task._id}
-                        task={task}
-                        statuses={statuses}
-                        updateTask={setTasks}
-                      />
+                      <Task key={task._id} task={task} statuses={statuses} />
                     )
                   )
                 })}

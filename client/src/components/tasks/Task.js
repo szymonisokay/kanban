@@ -10,6 +10,7 @@ import {
   Divider,
   Typography,
 } from '@mui/material'
+import { Box } from '@mui/system'
 import {
   MoreVert,
   PersonAddAlt,
@@ -21,17 +22,17 @@ import {
   Check,
 } from '@mui/icons-material'
 import moment from 'moment'
-import { useSelector } from 'react-redux'
-import { Box } from '@mui/system'
-import TasksService from '../../services/TasksService'
+import { useDispatch, useSelector } from 'react-redux'
 import ConfirmationModal from '../modals/ConfirmationModal'
 import AddTask from './AddTask'
+import { updateTask, deleteTask } from '../../features/boards/boardAsyncActions'
 
-const Task = ({ task, statuses, updateTask }) => {
+const Task = ({ task, statuses }) => {
   const { user } = useSelector((state) => state.users)
   const {
     boards: { users },
   } = useSelector((state) => state.board)
+  const dispatch = useDispatch()
 
   const [anchorEl, setAnchorEl] = useState(null)
   const [isUserMenuOpened, setIsUserMenuOpened] = useState(false)
@@ -59,13 +60,7 @@ const Task = ({ task, statuses, updateTask }) => {
       user: userId,
     }
 
-    await TasksService.updateTask(task._id, taskData, user.token).then((res) =>
-      updateTask((prev) =>
-        prev.map((task) =>
-          task._id === res._id ? { ...task, user: res.user } : task
-        )
-      )
-    )
+    dispatch(updateTask({ id: task._id, taskData }))
   }
 
   const updateStatus = async (statusId) => {
@@ -74,13 +69,7 @@ const Task = ({ task, statuses, updateTask }) => {
       status: statusId,
     }
 
-    await TasksService.updateTask(task._id, taskData, user.token).then((res) =>
-      updateTask((prev) =>
-        prev.map((task) =>
-          task._id === res._id ? { ...task, status: res.status } : task
-        )
-      )
-    )
+    dispatch(updateTask({ id: task._id, taskData }))
   }
 
   const onModalClick = (taskId) => {
@@ -92,13 +81,11 @@ const Task = ({ task, statuses, updateTask }) => {
     setIsModal(false)
   }
 
-  const deleteTask = async () => {
+  const onDeleteTask = async () => {
     setAnchorEl(null)
     setIsModal(false)
 
-    await TasksService.deleteTask(deletedTask, user.token).then(() =>
-      updateTask((prev) => prev.filter((task) => task._id !== deletedTask))
-    )
+    dispatch(deleteTask(deletedTask))
   }
 
   const onButtonClick = (task) => {
@@ -115,18 +102,7 @@ const Task = ({ task, statuses, updateTask }) => {
       user: data.user,
     }
 
-    await TasksService.updateTask(selectedTask._id, taskData, user.token).then(
-      (res) => {
-        updateTask((prev) =>
-          prev.map((task) =>
-            task._id === res._id
-              ? { ...task, name: res.name, desc: res.desc, user: res.user }
-              : task
-          )
-        )
-        setEditTask(false)
-      }
-    )
+    dispatch(updateTask({ id: selectedTask._id, taskData }))
   }
 
   const onEditTaskClose = () => {
@@ -279,7 +255,7 @@ const Task = ({ task, statuses, updateTask }) => {
           title='Are you sure you want to continue?'
           buttonText='Delete'
           onClose={onModalClose}
-          onConfirm={deleteTask}
+          onConfirm={onDeleteTask}
         />
       )}
 

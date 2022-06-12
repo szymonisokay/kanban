@@ -17,7 +17,8 @@ import {
 } from '@mui/material'
 
 import UsersService from '../../services/UsersService'
-import { addBoard, reset } from '../../features/boards/boardSlice'
+import { reset } from '../../features/boards/boardSlice'
+import { addBoard } from '../../features/boards/boardAsyncActions'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { useNavigate } from 'react-router-dom'

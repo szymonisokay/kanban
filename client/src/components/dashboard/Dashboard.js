@@ -5,7 +5,8 @@ import Boards from '../board/Boards'
 import Loading from '../loading/Loading'
 
 import { useDispatch, useSelector } from 'react-redux'
-import { getBoards, reset } from '../../features/boards/boardSlice'
+import { reset } from '../../features/boards/boardSlice'
+import { getBoards } from '../../features/boards/boardAsyncActions'
 
 import { Typography } from '@mui/material'
 

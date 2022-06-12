@@ -1,5 +1,14 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import boardService from './boardService'
+import { createSlice } from '@reduxjs/toolkit'
+import {
+  getBoards,
+  getSingleBoard,
+  addBoard,
+  deleteBoard,
+  updateBoard,
+  createTask,
+  updateTask,
+  deleteTask,
+} from './boardAsyncActions'
 
 const initialState = {
   boards: [],
@@ -8,96 +17,6 @@ const initialState = {
   isSuccess: false,
   message: '',
 }
-
-export const getBoards = createAsyncThunk(
-  'board/getBoards',
-  async (_, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().users.user.token
-      return await boardService.getBoards(token)
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
-    }
-  }
-)
-
-export const getSingleBoard = createAsyncThunk(
-  'board/getSingleBoard',
-  async (boardID, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().users.user.token
-      return await boardService.getSingleBoard(boardID, token)
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
-    }
-  }
-)
-
-export const addBoard = createAsyncThunk(
-  'board/addBoard',
-  async (board, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().users.user.token
-      return await boardService.createBoard(board, token)
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
-    }
-  }
-)
-
-export const deleteBoard = createAsyncThunk(
-  'board/deleteBoard',
-  async (id, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().users.user.token
-      return await boardService.deleteBoard(id, token)
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
-    }
-  }
-)
-
-export const updateBoard = createAsyncThunk(
-  'board/updateBoard',
-  async ({ id, boardData }, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().users.user.token
-      return await boardService.updateBoard(id, boardData, token)
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(message)
-    }
-  }
-)
 
 export const boardSlice = createSlice({
   name: 'board',
@@ -190,6 +109,57 @@ export const boardSlice = createSlice({
       .addCase(updateBoard.rejected, (state, action) => {
         state.isError = true
         state.isLoading = false
+        state.message = action.payload
+      })
+      .addCase(createTask.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(createTask.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.boards.tasks.push(action.payload)
+      })
+      .addCase(createTask.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(updateTask.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(updateTask.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.boards.tasks = state.boards.tasks.map((task) =>
+          task._id === action.payload._id
+            ? {
+                ...task,
+                user: action.payload.user,
+                status: action.payload.status,
+                name: action.payload.name,
+                desc: action.payload.desc,
+              }
+            : task
+        )
+      })
+      .addCase(updateTask.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.message = action.payload
+      })
+      .addCase(deleteTask.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(deleteTask.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.boards.tasks = state.boards.tasks.filter(
+          (task) => task._id !== action.payload._id
+        )
+      })
+      .addCase(deleteTask.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
         state.message = action.payload
       })
   },

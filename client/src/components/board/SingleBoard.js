@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react'
 import styles from './SingleBoard.module.css'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { getSingleBoard, reset } from '../../features/boards/boardSlice'
+import { reset } from '../../features/boards/boardSlice'
+import { getSingleBoard } from '../../features/boards/boardAsyncActions'
 import { Typography } from '@mui/material'
 import Loading from '../loading/Loading'
 import Tasks from '../tasks/Tasks'
@@ -41,7 +42,7 @@ const SingleBoard = () => {
               {boards?.desc}
             </Typography>
           </div>
-          <Tasks tasks={boards?.tasks} statuses={statuses} />
+          <Tasks statuses={statuses} />
         </>
       )}
     </section>

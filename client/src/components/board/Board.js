@@ -24,7 +24,10 @@ import { EditOutlined, DeleteOutline, ArrowForward } from '@mui/icons-material'
 
 import moment from 'moment'
 import { useSelector, useDispatch } from 'react-redux'
-import { deleteBoard, updateBoard } from '../../features/boards/boardSlice'
+import {
+  deleteBoard,
+  updateBoard,
+} from '../../features/boards/boardAsyncActions'
 import ConfirmationModal from '../modals/ConfirmationModal'
 import BoardModal from '../modals/BoardModal'
 import ShowUsersModal from '../modals/ShowUsersModal'

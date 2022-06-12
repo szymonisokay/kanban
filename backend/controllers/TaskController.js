@@ -63,7 +63,7 @@ const deleteTask = asyncHandler(async (req, res) => {
     throw new Error('Task not found')
   }
 
-  res.status(200).json('Task deleted')
+  res.status(200).json(task)
 })
 
 const getAllStatuses = asyncHandler(async (req, res) => {
